@@ -105,7 +105,7 @@ export function BrochurePopup() {
                     transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
                     className="text-4xl md:text-7xl font-orbitron font-black tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#ff4d00_0%,#ff9f2f_45%,#00f0ff_100%)]"
                   >
-                    INR 1,00,000+
+                    Rs. 8,00,000
                   </motion.p>
                   <p className="text-[10px] md:text-xs font-mono tracking-[0.18em] uppercase text-white/70 mt-4">
                     Aerial Racing. Precision. Prestige.
