@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,12 +28,33 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-md border-b border-white/10" : "bg-transparent"}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b border-white/30 ${isScrolled ? "bg-background/80 backdrop-blur-md" : "bg-transparent"}`}
     >
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="w-full px-3 sm:px-4 lg:px-6 xl:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="#" className="flex items-center gap-2 group">
-            <span className="text-2xl font-orbitron font-bold uppercase tracking-widest text-white">DRONE<span className="text-primary ml-1">WARS</span></span>
+          <Link href="#" className="flex items-center gap-3 group max-w-[68%] md:max-w-none pr-4">
+            <div className="relative shrink-0">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-[#00f0ff]/45 to-[#ff4d00]/35 blur-md opacity-80 group-hover:opacity-100 transition-opacity" />
+              <div className="relative h-11 w-11 md:h-12 md:w-12 overflow-hidden rounded-full border border-white/25 bg-white/90">
+                <Image
+                  src="/jiit-logo.png"
+                  alt="JIIT Noida Logo"
+                  width={48}
+                  height={48}
+                  className="h-full w-full object-cover"
+                  priority
+                />
+              </div>
+            </div>
+
+            <div className="min-w-0">
+              <span className="block text-xl md:text-2xl font-orbitron font-bold uppercase tracking-[0.2em] text-white leading-tight whitespace-nowrap">
+                DRONO<span className="text-primary ml-1">WAR</span>
+              </span>
+              <span className="hidden sm:block text-[10px] md:text-xs font-mono tracking-[0.16em] uppercase text-white/65 whitespace-nowrap">
+                In Association With <span className="text-[#00f0ff]">Jaypee Institute Of Information Technology</span>
+              </span>
+            </div>
           </Link>
 
           <div className="hidden md:flex flex-1 justify-center items-center space-x-8">

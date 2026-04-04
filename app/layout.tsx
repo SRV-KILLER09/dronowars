@@ -14,8 +14,13 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "DRONE WARS | International Drone Racing",
+  title: "DronoWars | JIIT Noida",
   description: "The ultimate FPV drone racing experience.",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/jiit-logo.png",
+  },
 };
 
 export default function RootLayout({

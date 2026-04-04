@@ -8,10 +8,13 @@ import { Prizes } from "@/components/sections/Prizes";
 import { RegistrationCTA } from "@/components/sections/RegistrationCTA";
 import { Footer } from "@/components/sections/Footer";
 import { BackgroundGrid } from "@/components/ui/BackgroundGrid";
+import { ContactUs } from "@/components/sections/ContactUs";
+import { BrochurePopup } from "@/components/ui/BrochurePopup";
 
 export default function Home() {
   return (
     <main className="min-h-screen relative">
+      <BrochurePopup />
       <BackgroundGrid />
       <Navbar />
       <Hero />
@@ -20,6 +23,7 @@ export default function Home() {
       <Specifications />
       <FAQs />
       <Prizes />
+      <ContactUs />
       <Footer />
     </main>
   );
