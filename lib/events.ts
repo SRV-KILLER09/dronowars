@@ -4,6 +4,7 @@ export interface Event {
     date: string;
     location: string;
     description: string;
+    longDescription?: string;
     image: string;
     color: string;
     category: "COMPETITION" | "EXHIBITION" | "TECHNICAL" | "ENTREPRENEURIAL" | "MISCELLANEOUS";
@@ -28,6 +29,7 @@ export const events: Event[] = [
         date: "May 2-3, 2026",
         location: "JIIT Wish Town Campus",
         description: "Pilots control high-performance racing drones using first-person-view (FPV) goggles. Navigate a high-speed race track with precision control and obstacle avoidance.",
+        longDescription: "An FPV Drone Racing Challenge is a high-intensity competition that puts a pilot's ability to the test as they navigate their drone through a fast-paced obstacle course. The event is crafted to showcase precision in control, rapid decision-making, agility, spatial awareness, and sharp reflexes in dynamic, real-world racing conditions.\n\nTo ensure fairness and technical merit, only custom-built multi-rotor drones are allowed. Ready-to-Fly (RTF) commercially purchased drones are strictly prohibited.",
         image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1000&auto=format&fit=crop",
         color: "primary",
         category: "COMPETITION",

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { events, Event } from "@/lib/events";
 import { useState } from "react";
 import { MoreVertical, Circle, X } from "lucide-react";
+import { EventTimeline } from "./EventTimeline";
 
 const categories = ["ALL", "COMPETITION", "EXHIBITION"] as const;
 
@@ -177,6 +178,8 @@ export function EventsSection() {
             {/* Fixed Close Button */}
             <button 
               onClick={() => setSelectedEvent(null)}
+              aria-label="Close event popup"
+              title="Close"
               className="fixed top-6 right-6 md:top-10 md:right-10 z-[110] w-12 h-12 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full flex items-center justify-center text-white/50 hover:text-white transition-colors backdrop-blur-md"
             >
               <X size={24} />
@@ -185,12 +188,18 @@ export function EventsSection() {
             <div className="min-h-screen py-24 px-6 md:px-16 lg:px-32 max-w-screen-2xl mx-auto flex flex-col">
               
               {/* Header Top matching reference */}
-              <div className="flex items-center gap-3 text-[10px] md:text-xs font-mono text-white/40 uppercase tracking-[0.2em] mb-12">
-                <span>Competitions</span>
-                <span>/</span>
-                <span>{selectedEvent.category}</span>
-                <span>/</span>
-                <span className="text-white">{selectedEvent.title}</span>
+              <div className="mb-12 flex flex-wrap items-center gap-3">
+                <div className="inline-flex items-center gap-2 border border-[#00f0ff]/35 bg-[linear-gradient(120deg,rgba(0,240,255,0.12),rgba(255,77,0,0.1))] px-3 py-1 text-[10px] md:text-xs font-mono uppercase tracking-[0.2em] text-[#c8fcff] shadow-[0_0_20px_rgba(0,240,255,0.14)]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#00f0ff]" />
+                  Pilot Briefing
+                </div>
+                <div className="flex items-center gap-3 text-[10px] md:text-xs font-mono text-white/45 uppercase tracking-[0.2em]">
+                  <span>Competitions</span>
+                  <span>/</span>
+                  <span>{selectedEvent.category}</span>
+                  <span>/</span>
+                  <span className="text-white">{selectedEvent.title}</span>
+                </div>
               </div>
 
               {/* Huge Title */}
@@ -198,20 +207,41 @@ export function EventsSection() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium text-white tracking-tighter mb-12 leading-none"
+                className="text-5xl md:text-7xl lg:text-8xl font-serif font-medium text-transparent bg-clip-text bg-[linear-gradient(135deg,#ffffff_0%,#c9fbff_35%,#ffcfb8_75%,#ffffff_100%)] tracking-tight mb-5 leading-none drop-shadow-[0_0_22px_rgba(0,240,255,0.16)]"
               >
                 {selectedEvent.title.toUpperCase()}
               </motion.h2>
 
+              <motion.div
+                initial={{ opacity: 0, scaleX: 0.96 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{ delay: 0.16, duration: 0.35 }}
+                className="mb-12 h-px w-full max-w-3xl bg-gradient-to-r from-[#00f0ff]/70 via-[#ff9f6a]/65 to-transparent"
+              />
+
               {/* Description */}
-              <motion.p 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                className="text-base md:text-xl text-white/60 font-sans font-light leading-relaxed tracking-wide max-w-4xl mb-24"
+                className="relative max-w-5xl mb-24 overflow-hidden border border-white/15 bg-[linear-gradient(145deg,rgba(0,240,255,0.08),rgba(255,77,0,0.06),rgba(10,12,20,0.86))] px-6 py-6 md:px-8 md:py-7 shadow-[0_16px_45px_rgba(0,0,0,0.45)]"
               >
-                {selectedEvent.description}
-              </motion.p>
+                <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent" />
+                <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#ff9f6a]/70 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:30px_30px] opacity-20" />
+                <div className="relative z-10 text-base md:text-xl font-sans leading-relaxed tracking-wide">
+                  {(selectedEvent.longDescription ?? selectedEvent.description)
+                    .split("\n\n")
+                    .map((paragraph, index) => (
+                      <p
+                        key={`${selectedEvent.slug}-para-${index}`}
+                        className={`mb-5 last:mb-0 ${index === 0 ? "text-[#e5feff]" : "text-[#ffd8c5]"}`}
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
+                </div>
+              </motion.div>
 
               {/* Bottom Cards Row */}
               <motion.div 
@@ -221,51 +251,56 @@ export function EventsSection() {
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 w-full mt-auto"
               >
                 {/* Visual Card */}
-                <div className="group relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[16/9] rounded-2xl overflow-hidden border border-white/5 bg-[#111]">
-                  <div className="absolute top-6 left-6 z-10 font-mono text-primary/80 font-bold tracking-widest text-sm">
-                    01
+                <div className="group relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 bg-[#111] shadow-[0_20px_55px_rgba(0,0,0,0.45)]">
+                  <div className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 border border-[#ff7a3d]/45 bg-[linear-gradient(125deg,rgba(255,122,61,0.32),rgba(255,122,61,0.12))] px-3 py-1 text-[10px] font-mono tracking-[0.18em] uppercase text-[#ffd4c0]">
+                    <span className="font-bold text-[#ff5f1f]">01</span>
+                    Focus Matrix
                   </div>
                   <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                     style={{ backgroundImage: `url(${selectedEvent.image})` }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(0,240,255,0.15),transparent_40%),radial-gradient(circle_at_85%_20%,rgba(255,77,0,0.18),transparent_38%)]" />
                   <div className="absolute flex flex-col justify-end p-8 inset-0 z-10">
-                    <h3 className="font-mono text-sm tracking-[0.2em] text-white/50 uppercase mb-2">Focus</h3>
-                    <ul className="space-y-1 font-sans text-sm md:text-base text-white/90 font-light">
+                    <h3 className="font-mono text-xs md:text-sm tracking-[0.28em] text-[#c7f9ff] uppercase mb-3">Flight Skills Tested</h3>
+                    <ul className="space-y-2 font-sans text-sm md:text-[1.05rem] text-white/95 font-light">
                       {selectedEvent.skillsTested.slice(0, 3).map((skill, i) => (
-                        <li key={i} className="flex items-center gap-3">
-                          <span className="w-1 h-1 bg-primary rounded-full" />
+                        <li key={i} className="flex items-center gap-3 rounded-lg bg-black/30 px-3 py-2 backdrop-blur-sm border border-white/10">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#ff6a2a] shadow-[0_0_10px_rgba(255,106,42,0.8)]" />
                           {skill}
                         </li>
                       ))}
                     </ul>
                   </div>
+                  <div className="pointer-events-none absolute inset-x-5 bottom-0 h-px bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent" />
                 </div>
 
                 {/* Details Card */}
-                <div className="group relative h-full min-h-[350px] rounded-2xl overflow-hidden border border-white/5 bg-[#111] p-8 md:p-10 flex flex-col">
-                  <div className="absolute top-6 left-6 z-10 font-mono text-[#00f0ff]/80 font-bold tracking-widest text-sm">
-                    02
+                <div className="group relative h-full min-h-[330px] rounded-3xl overflow-hidden border border-[#00f0ff]/20 bg-[linear-gradient(145deg,rgba(0,240,255,0.08),rgba(255,77,0,0.06),rgba(8,10,18,0.95))] p-6 md:p-8 flex flex-col shadow-[0_20px_55px_rgba(0,0,0,0.4)]">
+                  <div className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 border border-[#00f0ff]/40 bg-[linear-gradient(125deg,rgba(0,240,255,0.24),rgba(0,240,255,0.1))] px-3 py-1 text-[10px] font-mono tracking-[0.18em] uppercase text-[#c8fcff]">
+                    <span className="font-bold text-[#00f0ff]">02</span>
+                    Mission Intel
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#00f0ff]/5 to-transparent pointer-events-none" />
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(0,240,255,0.15),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(255,77,0,0.12),transparent_45%)]" />
+                  <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent" />
                   
-                  <div className="mt-8 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12">
+                  <div className="mt-9 flex-1 grid grid-cols-1 lg:grid-cols-[1.12fr_0.88fr] gap-6 lg:gap-8 items-stretch">
                     {/* Prize Column */}
-                    <div>
-                       <h3 className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-6">Prize Pool</h3>
-                       <div className="text-3xl font-light text-[#00f0ff] mb-6 tracking-tight">
+                      <div className="flex flex-col justify-center">
+                       <h3 className="font-mono text-xs tracking-[0.24em] text-[#ffe0cf] uppercase mb-5">Prize Pool</h3>
+                        <div className="w-full max-w-full whitespace-nowrap text-[clamp(2rem,5.4vw,3.2rem)] leading-none font-light text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#84fff0_45%,#ffab7b_100%)] mb-3 tracking-normal drop-shadow-[0_0_18px_rgba(0,240,255,0.18)]">
                          ₹{selectedEvent.prizePool.total}
                        </div>
-                       <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
-                         Technical excellence and mission success are rewarded according to championship protocols.
+                       <p className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-black/25 px-3 py-2 font-mono text-[10px] text-white/80 uppercase tracking-[0.16em]">
+                         <span className="h-1.5 w-1.5 rounded-full bg-[#00f0ff]" />
+                         Total Prize Pool
                        </p>
                     </div>
                     
                     {/* Timeline Column */}
-                    <div>
-                      <h3 className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-6">Timeline</h3>
-                      <div className="px-4 py-3 bg-white/5 border border-white/10 rounded-md">
-                        <span className="font-orbitron font-bold text-primary tracking-[0.3em] text-sm">TBD</span>
+                    <div className="flex flex-col justify-center">
+                      <div className="h-full rounded-2xl border border-white/15 bg-[linear-gradient(145deg,rgba(12,16,28,0.72),rgba(6,8,16,0.72))] p-3 md:p-4 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                         <EventTimeline timeline={selectedEvent.timeline} />
                       </div>
                     </div>
                   </div>
