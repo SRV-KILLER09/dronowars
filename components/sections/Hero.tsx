@@ -96,8 +96,6 @@ export function Hero() {
                 ₹ 8,00,000 INR
               </motion.p>
             </motion.div>
-
-            <div className="w-[1px] h-2 md:h-3 bg-gradient-to-b from-transparent via-primary to-transparent" />
           </motion.div>
 
           {/* Premium Championship CTA */}
