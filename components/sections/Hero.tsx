@@ -107,14 +107,6 @@ export function Hero() {
             transition={{ delay: 1.4, duration: 0.6 }}
             className="flex flex-col items-center gap-4 md:gap-6"
           >
-            <div className="flex flex-col items-center gap-2">
-              <div className="text-center text-[10px] md:text-sm font-orbitron font-bold tracking-[0.2em] text-primary">
-                ₹8 LAKHS PRIZE POOL
-              </div>
-              <div className="text-center text-[8px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/50">
-                Register Now For The Championship
-              </div>
-            </div>
             <div className="flex flex-col sm:flex-row items-center gap-2.5">
               <motion.button
                 whileHover={{ scale: 1.05 }}
