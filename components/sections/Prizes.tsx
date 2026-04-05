@@ -40,14 +40,27 @@ export function Prizes() {
           <div className="mx-auto mt-3 h-px w-44 bg-gradient-to-r from-transparent via-[#ff4d00]/70 to-transparent" />
         </motion.div>
 
-        <Card className="mx-auto max-w-3xl p-6 md:p-8 border border-white/10 bg-[linear-gradient(155deg,rgba(8,10,18,0.85),rgba(5,5,14,0.82))] shadow-[0_0_0_1px_rgba(255,255,255,0.03),0_18px_45px_rgba(0,0,0,0.4)]">
-          <h3 className="text-lg md:text-xl font-orbitron font-bold tracking-[0.15em] uppercase text-white/75">Championship Status</h3>
-          <div className="mx-auto mt-3 h-px w-16 bg-gradient-to-r from-transparent via-[#ff4d00]/70 to-transparent" />
-          <p className="mt-5 text-[11px] md:text-xs font-mono tracking-[0.1em] leading-relaxed uppercase text-white/72 max-w-2xl mx-auto">
-            The national drone championship features 5 high-stakes arenas where pilots compete for glory and substantial rewards. Focus on technical excellence and precision maneuvering to claim your share of the massive prize pool.
-          </p>
-          <div className="mx-auto mt-5 h-px w-16 bg-gradient-to-r from-transparent via-[#ff4d00]/70 to-transparent" />
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto p-12 border border-white/5 bg-[#080812] relative overflow-hidden group rounded-2xl"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,240,255,0.05),transparent_70%)]" />
+          <div className="relative z-10">
+            <h3 className="font-orbitron font-bold text-white/50 text-sm md:text-base mb-6 tracking-[0.3em] uppercase">
+              Championship Status
+            </h3>
+            <div className="flex flex-col gap-4 text-left md:text-center items-center">
+              <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent mb-4" />
+              <p className="text-white/70 font-mono text-xs md:text-sm leading-relaxed max-w-2xl uppercase tracking-widest">
+                The National Drone Championship features 5 high-stakes arenas where pilots compete for glory and substantial rewards. Focus on technical excellence and precision maneuvering to claim your share of the massive prize pool.
+              </p>
+              <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent mt-4" />
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

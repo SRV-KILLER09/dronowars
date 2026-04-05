@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { events, Event } from "@/lib/events";
 import { useState } from "react";
 import { MoreVertical, Circle, X } from "lucide-react";
-import { EventTimeline } from "./EventTimeline";
 
 const categories = ["ALL", "COMPETITION", "EXHIBITION"] as const;
 
@@ -257,16 +256,16 @@ export function EventsSection() {
                        <div className="text-3xl font-light text-[#00f0ff] mb-6 tracking-tight">
                          ₹{selectedEvent.prizePool.total}
                        </div>
-                       <p className="font-mono text-xs text-white/60 uppercase tracking-[0.16em]">
-                         Total Prize Pool
+                       <p className="font-mono text-[10px] text-white/40 uppercase tracking-widest leading-relaxed">
+                         Technical excellence and mission success are rewarded according to championship protocols.
                        </p>
                     </div>
                     
                     {/* Timeline Column */}
                     <div>
                       <h3 className="font-mono text-xs tracking-[0.2em] text-white/40 uppercase mb-6">Timeline</h3>
-                      <div className="-ml-2 -mt-2">
-                         <EventTimeline timeline={selectedEvent.timeline} />
+                      <div className="px-4 py-3 bg-white/5 border border-white/10 rounded-md">
+                        <span className="font-orbitron font-bold text-primary tracking-[0.3em] text-sm">TBD</span>
                       </div>
                     </div>
                   </div>

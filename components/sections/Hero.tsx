@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 export function Hero() {
   return (
     <section className="relative h-screen md:h-[100dvh] flex items-center justify-center overflow-hidden">
@@ -64,7 +65,7 @@ export function Hero() {
                 National Drone Championship
               </p>
               <p className="text-white/70 font-mono text-[9px] md:text-xs uppercase tracking-[0.15em]">
-                Jaypee Institute of Information Technology, Sector 128 Noida
+                Jaypee Institute of Information Technology Sector-128, Noida
               </p>
             </div>
 
@@ -104,10 +105,15 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.4, duration: 0.6 }}
-            className="flex flex-col items-center gap-2 md:gap-3"
+            className="flex flex-col items-center gap-4 md:gap-6"
           >
-            <div className="text-center text-[8px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/50">
-              Register Now For The Championship
+            <div className="flex flex-col items-center gap-2">
+              <div className="text-center text-[10px] md:text-sm font-orbitron font-bold tracking-[0.2em] text-primary">
+                ₹8 LAKHS PRIZE POOL
+              </div>
+              <div className="text-center text-[8px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/50">
+                Register Now For The Championship
+              </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-2.5">
               <motion.button

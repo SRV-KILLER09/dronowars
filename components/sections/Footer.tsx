@@ -87,12 +87,17 @@ export function Footer() {
           </div>
         </div>
         
-        <div className="text-center py-6 border-t border-white/10 space-y-3">
-          <p className="inline-flex flex-wrap items-center justify-center gap-1 rounded-full border border-[#00f0ff]/30 bg-[linear-gradient(120deg,rgba(0,240,255,0.15),rgba(129,255,227,0.12),rgba(255,138,75,0.18))] px-5 py-2 text-[11px] sm:text-xs font-orbitron tracking-[0.14em] uppercase shadow-[0_0_28px_rgba(0,240,255,0.2)]">
-            <span className="text-[#b9ffff]">&copy; 2026</span>
-            <span className="text-white">DronoWars</span>
-            <span className="text-[#ffd0b3]">JIIT Noida.</span>
-            <span className="text-[#aef0ff]">All rights reserved.</span>
+        <div className="text-center py-6 border-t border-white/10 flex flex-col gap-4">
+          <div className="flex justify-center">
+            <p className="inline-flex flex-wrap items-center justify-center gap-1 rounded-full border border-[#00f0ff]/30 bg-[linear-gradient(120deg,rgba(0,240,255,0.15),rgba(129,255,227,0.12),rgba(255,138,75,0.18))] px-5 py-2 text-[11px] sm:text-xs font-orbitron tracking-[0.14em] uppercase shadow-[0_0_28px_rgba(0,240,255,0.2)] w-fit">
+              <span className="text-[#b9ffff]">&copy; 2026</span>
+              <span className="text-white">DronoWars</span>
+              <span className="text-[#ffd0b3]">JIIT Noida.</span>
+              <span className="text-[#aef0ff]">All rights reserved.</span>
+            </p>
+          </div>
+          <p className="text-[10px] font-mono tracking-[0.2em] text-white/40 uppercase">
+            Made with love by <span className="text-primary italic">Ansh Shourya</span> and <span className="text-accent italic">vardan</span> ❤️
           </p>
           <p className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-[#00f0ff]/35 bg-[linear-gradient(135deg,rgba(0,240,255,0.10),rgba(255,122,66,0.12))] px-4 py-2 text-[11px] sm:text-xs font-orbitron tracking-[0.08em] text-white/90 shadow-[0_0_30px_rgba(0,240,255,0.12)]">
             <span className="text-white/75">Made with</span>

@@ -1,0 +1,39 @@
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\app\layout.tsx[24m[0m
+[0m  [2m4:10[22m  [33mwarning[39m  'BackgroundGrid' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\app\page.tsx[24m[0m
+[0m  [2m7:10[22m  [33mwarning[39m  'RegistrationCTA' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\components\sections\EventsSection.tsx[24m[0m
+[0m  [2m7:10[22m  [33mwarning[39m  'EventTimeline' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\components\sections\FAQs.tsx[24m[0m
+[0m  [2m48:115[22m  [31merror[39m  Comments inside children section of tag should be placed inside braces  [2mreact/jsx-no-comment-textnodes[22m[0m
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\components\sections\Hero.tsx[24m[0m
+[0m  [2m4:10[22m  [33mwarning[39m  'Button' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\components\sections\Prizes.tsx[24m[0m
+[0m  [2m6:10[22m  [33mwarning[39m  'Card' is defined but never used  [2m@typescript-eslint/no-unused-vars[22m[0m
+[0m[0m
+[0m[4mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\components\ui\BackgroundGrid.tsx[24m[0m
+[0m  [2m31:5[22m  [31merror[39m  Error: Calling setState synchronously within an effect can trigger cascading renders[0m
+[0m[0m
+[0mEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:[0m
+[0m* Update external systems with the latest state from React.[0m
+[0m* Subscribe for updates from some external system, calling setState in a callback function when external state changes.[0m
+[0m[0m
+[0mCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).[0m
+[0m[0m
+[0mC:\Users\HP\OneDrive\Documents\ansh coding\vaibhav\dw\drone-wars\components\ui\BackgroundGrid.tsx:31:5[0m
+[0m  29 |[0m
+[0m  30 |   useEffect(() => {[0m
+[0m> 31 |     setMounted(true);[0m
+[0m     |     ^^^^^^^^^^ Avoid calling setState() directly within an effect[0m
+[0m  32 |     const handleMouseMove = (e: MouseEvent) => {[0m
+[0m  33 |       setMousePos({[0m
+[0m  34 |         x: (e.clientX / window.innerWidth - 0.5) * 20,  [2mreact-hooks/set-state-in-effect[22m[0m
+[0m[0m
+[0m[31m[1m✖ 7 problems (2 errors, 5 warnings)[22m[39m[0m
+[0m[31m[1m[22m[39m[0m
