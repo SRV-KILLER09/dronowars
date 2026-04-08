@@ -20,12 +20,6 @@ export default function Home() {
       <BackgroundGrid />
       <Navbar />
       <Hero />
-      <AboutEvent />
-      <EventsSection />
-      {/* <FAQs /> */}
-      <Prizes />
-      <ContactUs />
-      <Footer />
       <HomeDeferredSections />
     </main>
   );

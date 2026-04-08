@@ -125,17 +125,11 @@ export function BrochurePopup() {
                       />
                     </div>
                     <div>
-<<<<<<< HEAD
                       <p className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#8fffe2_52%,#ff9b66_100%)] mb-1 drop-shadow-[0_0_12px_rgba(0,240,255,0.2)]">
                         DRONO-O-WAR 1.0
                       </p>
                       <h1 className="whitespace-nowrap text-[clamp(1.1rem,3.8vw,3.2rem)] font-orbitron font-black uppercase leading-none tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#e8feff_0%,#00f0ff_38%,#8fffe2_68%,#ff9b66_100%)] drop-shadow-[0_0_14px_rgba(0,240,255,0.18)]">
                         DRONO-O-WAR 1.0
-=======
-                      <p className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-[#00f0ff] mb-1">DronoWar 2026</p>
-                      <h1 className="text-3xl md:text-5xl font-orbitron font-black uppercase leading-[0.95] tracking-[0.12em] text-white">
-                        Dronowar
->>>>>>> 14a0a16 (fixed merge conflicts and removed contacts)
                       </h1>
                       <p className="mt-1 text-[10px] md:text-xs font-mono tracking-[0.16em] uppercase text-white/65">
                         In association with
