@@ -3,10 +3,97 @@
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { events, Event } from "@/lib/events";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { MoreVertical, Circle, X } from "lucide-react";
 import { EventTimeline } from "./EventTimeline";
 
 const categories = ["ALL", "COMPETITION", "EXHIBITION"] as const;
+
+function EventPreviewCard({
+  event,
+  onSelect,
+}: {
+  event: Event;
+  onSelect: (event: Event) => void;
+}) {
+  const [imageSrc, setImageSrc] = useState(event.image);
+  const blurb = event.description.length > 74 ? `${event.description.slice(0, 74)}...` : event.description;
+
+  useEffect(() => {
+    setImageSrc(event.image);
+  }, [event.image]);
+
+  return (
+    <article
+      className="group relative w-full aspect-[3/4] min-h-[440px] overflow-hidden rounded-[14px] border border-white/15 bg-[linear-gradient(155deg,#111421_0%,#090a11_48%,#050608_100%)] shadow-[0_20px_45px_rgba(0,0,0,0.55)] cursor-pointer"
+      onClick={() => onSelect(event)}
+    >
+      {event.eligibilityNote && (
+        <div className="pointer-events-none absolute left-0 top-0 z-20 flex h-11 w-[270px] origin-top-left -translate-x-14 translate-y-6 -rotate-45 items-center justify-center overflow-hidden border border-[#ffe08e]/80 bg-[linear-gradient(120deg,rgba(255,208,116,0.98),rgba(255,153,82,0.96)_58%,rgba(255,120,72,0.95))] px-3 text-center font-orbitron text-[10px] font-black uppercase leading-none tracking-[0.16em] text-[#2a1308] shadow-[0_14px_34px_rgba(255,168,74,0.45),0_0_0_1px_rgba(255,238,183,0.45)_inset]">
+          <span className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.42),transparent)] opacity-40" />
+          <span className="relative whitespace-nowrap">JIIT NOIDA STUDENTS ONLY</span>
+        </div>
+      )}
+
+      <Image
+        src={imageSrc}
+        alt={event.title}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        onError={() => {
+          if (imageSrc !== "/event-obstacle-navigation.jpg") {
+            setImageSrc("/event-obstacle-navigation.jpg");
+          }
+        }}
+        className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+      />
+
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.18)_30%,rgba(0,0,0,0.86)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_14%,rgba(255,255,255,0.16),transparent_44%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-400 group-hover:opacity-100 bg-[linear-gradient(120deg,rgba(255,255,255,0.08),transparent_30%,transparent_70%,rgba(255,255,255,0.05))]" />
+
+      <div className="absolute left-4 top-4 z-10 inline-flex items-center border border-white/25 bg-black/30 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-white/85">
+        {event.category}
+      </div>
+
+      <div className="absolute right-3 top-1/2 z-10 -translate-y-1/2 [writing-mode:vertical-rl] text-[10px] font-mono tracking-[0.35em] uppercase text-white/50">
+        {event.category}
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6">
+        {event.eligibilityNote && (
+          <div className="mb-3 inline-flex items-center gap-2 border border-[#ffd27a]/60 bg-[linear-gradient(120deg,rgba(255,170,60,0.22),rgba(255,210,122,0.12))] px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-[#ffe0ad]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ffb347]" />
+            {event.eligibilityNote}
+          </div>
+        )}
+
+        <h3 className="max-w-[90%] font-orbitron text-[1.55rem] leading-[1.05] font-black uppercase tracking-[0.045em] text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)] md:text-[1.72rem]">
+          {event.title}
+        </h3>
+
+        <p className="mt-3 max-w-[92%] font-mono text-[10px] uppercase leading-[1.55] tracking-[0.16em] text-white/70 md:text-[11px]">
+          {blurb}
+        </p>
+
+        <div className="mt-4 flex items-center gap-3">
+          <button
+            type="button"
+            className="border border-white/20 bg-black/35 px-3 py-1.5 font-mono text-[9px] uppercase tracking-[0.18em] text-white/85 transition-colors duration-300 group-hover:bg-white/10"
+            aria-label={`View ${event.title} rulebook and details`}
+          >
+            Rulebook
+          </button>
+          <div className="h-px w-10 bg-white/25" />
+        </div>
+
+        <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.14em] text-white/55">
+          Reveal by 1st April, 2026
+        </p>
+      </div>
+    </article>
+  );
+}
 
 export function EventsSection() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>("ALL");
@@ -68,80 +155,26 @@ export function EventsSection() {
           ))}
         </div>
 
-        {/* Grid matching image card style */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-          {filteredEvents.slice(0, 3).map((event, index) => (
-            <motion.div
+        {/* Grid matching provided visual reference */}
+        <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 lg:gap-6 mb-6">
+          {filteredEvents.slice(0, 3).map((event) => (
+            <EventPreviewCard
               key={event.slug}
-              layout={shouldAnimate}
-              initial={shouldAnimate ? { opacity: 0, scale: 0.9 } : false}
-              animate={shouldAnimate ? { opacity: 1, scale: 1 } : undefined}
-              transition={shouldAnimate ? { duration: 0.5, delay: index * 0.1 } : undefined}
-              className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#060606] border border-white/5 cursor-pointer"
-              onClick={() => setSelectedEvent(event)}
-            >
-                <div className="block w-full h-full">
-                  {/* Background Image */}
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover object-center opacity-100 transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-                  {/* Bottom Content */}
-                  <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/45 px-3 py-1 font-mono text-[9px] tracking-[0.35em] text-white/70 uppercase backdrop-blur-md mb-3">
-                      {event.category}
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-orbitron font-black text-white leading-tight tracking-widest uppercase">
-                      {event.title}
-                    </h3>
-                    <p className="mt-3 text-[11px] md:text-xs font-mono text-white/70 leading-relaxed max-w-[92%]">
-                      {event.description.length > 80 ? event.description.substring(0, 80) + "..." : event.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+              event={event}
+              onSelect={setSelectedEvent}
+            />
+          ))}
         </div>
 
-        {/* Bottom Row Centered */}
-        <div className="flex flex-wrap justify-center gap-8">
-          {filteredEvents.slice(3).map((event, index) => (
-            <motion.div
+        {/* Bottom rows for remaining cards */}
+        <div className="mx-auto grid max-w-[1240px] grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3 md:gap-8">
+          {filteredEvents.slice(3).map((event) => (
+            <EventPreviewCard
               key={event.slug}
-              layout={shouldAnimate}
-              initial={shouldAnimate ? { opacity: 0, scale: 0.9 } : false}
-              animate={shouldAnimate ? { opacity: 1, scale: 1 } : undefined}
-              transition={shouldAnimate ? { duration: 0.5, delay: (index + 3) * 0.1 } : undefined}
-              className="group relative aspect-[4/5] w-full md:w-[calc(50%-16px)] lg:w-[calc(33.33%-22px)] overflow-hidden rounded-2xl bg-[#060606] border border-white/5 cursor-pointer"
-              onClick={() => setSelectedEvent(event)}
-            >
-                <div className="block w-full h-full">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover object-center opacity-100 transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-
-                  <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6 text-left">
-                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/45 px-3 py-1 font-mono text-[9px] tracking-[0.35em] text-white/70 uppercase backdrop-blur-md mb-3">
-                      {event.category}
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-orbitron font-black text-white leading-tight tracking-widest uppercase">
-                      {event.title}
-                    </h3>
-                    <p className="mt-3 text-[11px] md:text-xs font-mono text-white/70 leading-relaxed max-w-[92%]">
-                      {event.description.length > 80 ? event.description.substring(0, 80) + "..." : event.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+              event={event}
+              onSelect={setSelectedEvent}
+            />
+          ))}
         </div>
       </div>
 
@@ -172,6 +205,12 @@ export function EventsSection() {
                   <span className="h-1.5 w-1.5 rounded-full bg-[#00f0ff]" />
                   Pilot Briefing
                 </div>
+                {selectedEvent.eligibilityNote && (
+                  <div className="inline-flex items-center gap-2 border border-[#ffd27a]/60 bg-[linear-gradient(120deg,rgba(255,170,60,0.22),rgba(255,210,122,0.12))] px-3 py-1 text-[10px] md:text-xs font-mono uppercase tracking-[0.16em] text-[#ffe0ad]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#ffb347]" />
+                    {selectedEvent.eligibilityNote}
+                  </div>
+                )}
                 <div className="flex items-center gap-3 text-[10px] md:text-xs font-mono text-white/45 uppercase tracking-[0.2em]">
                   <span>Competitions</span>
                   <span>/</span>
@@ -257,44 +296,18 @@ export function EventsSection() {
                   <div className="pointer-events-none absolute inset-x-5 bottom-0 h-px bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent" />
                 </div>
 
-                {/* Details Card */}
+                {/* Timeline Card */}
                 <div className="group relative h-full min-h-[330px] rounded-3xl overflow-hidden border border-[#00f0ff]/20 bg-[linear-gradient(145deg,rgba(0,240,255,0.08),rgba(255,77,0,0.06),rgba(8,10,18,0.95))] p-6 md:p-8 flex flex-col shadow-[0_20px_55px_rgba(0,0,0,0.4)]">
                   <div className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 border border-[#00f0ff]/40 bg-[linear-gradient(125deg,rgba(0,240,255,0.24),rgba(0,240,255,0.1))] px-3 py-1 text-[10px] font-mono tracking-[0.18em] uppercase text-[#c8fcff]">
                     <span className="font-bold text-[#00f0ff]">02</span>
-                    Mission Intel
+                    Mission Timeline
                   </div>
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_16%_12%,rgba(0,240,255,0.15),transparent_35%),radial-gradient(circle_at_90%_80%,rgba(255,77,0,0.12),transparent_45%)]" />
                   <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent" />
                   
-                  <div className="mt-9 flex-1 grid grid-cols-1 lg:grid-cols-[1.12fr_0.88fr] gap-6 lg:gap-8 items-stretch">
-                    {/* Prize Column */}
-                      <div className="flex flex-col justify-center gap-6">
-                        <div>
-                         <h3 className="font-mono text-xs tracking-[0.24em] text-[#ffe0cf] uppercase mb-5">Prize Pool</h3>
-                          <div className="w-full max-w-full whitespace-nowrap text-[clamp(2rem,5.4vw,3.2rem)] leading-none font-light text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#84fff0_45%,#ffab7b_100%)] mb-3 tracking-normal drop-shadow-[0_0_18px_rgba(0,240,255,0.18)]">
-                           ₹{selectedEvent.prizePool.total}
-                         </div>
-                         <p className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-black/25 px-3 py-2 font-mono text-[10px] text-white/80 uppercase tracking-[0.16em]">
-                           <span className="h-1.5 w-1.5 rounded-full bg-[#00f0ff]" />
-                           Total Prize Pool
-                         </p>
-                        </div>
-                        
-                        <div className="flex flex-col items-start gap-2 pt-5 border-t border-white/10">
-                          <button disabled className="px-8 py-3.5 border border-white/20 bg-white/5 text-white/50 text-xs font-mono tracking-widest uppercase cursor-not-allowed transition-colors">
-                            RULEBOOK
-                          </button>
-                          <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest pl-1">
-                            Revealed by 8th April 2026
-                          </span>
-                       </div>
-                    </div>
-                    
-                    {/* Timeline Column */}
-                    <div className="flex flex-col justify-center">
-                      <div className="h-full rounded-2xl border border-white/15 bg-[linear-gradient(145deg,rgba(12,16,28,0.72),rgba(6,8,16,0.72))] p-3 md:p-4 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-                         <EventTimeline timeline={selectedEvent.timeline} />
-                      </div>
+                  <div className="mt-9 flex-1">
+                    <div className="h-full rounded-2xl border border-white/15 bg-[linear-gradient(145deg,rgba(12,16,28,0.72),rgba(6,8,16,0.72))] p-3 md:p-4 backdrop-blur-md shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+                      <EventTimeline timeline={selectedEvent.timeline} />
                     </div>
                   </div>
 

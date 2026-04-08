@@ -71,7 +71,7 @@ export function AboutEvent() {
               transition={{ duration: 0.55, delay: 0.12 }}
               className="relative z-10 mx-auto mb-6 max-w-4xl text-xs md:text-sm text-white/78 font-mono tracking-wide leading-relaxed"
             >
-              DRONOWAR at Jaypee Institute of Information Technology, Sector 128 Noida brings world-class FPV competition, DRDO scientist talks, advanced demonstrations, and mission-grade race formats into one high-energy national arena.
+              DRONO-O-WAR 1.0 at Jaypee Institute of Information Technology, Sector 128 Noida brings world-class FPV competition, DRDO scientist talks, advanced demonstrations, and mission-grade race formats into one high-energy national arena.
             </motion.p>
 
             <div className="relative z-10 mb-6 flex justify-center text-left">

@@ -17,7 +17,7 @@ export function Hero() {
     return () => mediaQuery.removeEventListener("change", updateCompactMode);
   }, []);
 
-  const allowLoopAnimations = !prefersReducedMotion && !compactMode;
+  const allowLoopAnimations = false && !prefersReducedMotion && !compactMode;
 
   return (
     <section className="relative h-screen md:h-[100dvh] flex items-center justify-center overflow-hidden">
@@ -131,8 +131,6 @@ export function Hero() {
           >
             <div className="flex flex-col sm:flex-row items-center gap-2.5">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLScIvVbyRIGsxU_j0lq65Iq6iGgTuINPF_o8Ti9IqIUOnCwtaw/viewform?usp=dialog", "_blank", "noopener,noreferrer")}
                 className="relative group overflow-hidden px-6 md:px-8 py-2 md:py-2.5 border border-[#7dffe4]/70 bg-[linear-gradient(95deg,#00f0ff_0%,#59ffd0_46%,#00ffb3_100%)] text-[#021018] font-orbitron font-black text-[11px] md:text-xs tracking-[0.17em] uppercase shadow-[0_0_36px_rgba(0,255,179,0.45),inset_0_1px_0_rgba(255,255,255,0.45)] hover:shadow-[0_0_62px_rgba(0,255,179,0.72),inset_0_1px_0_rgba(255,255,255,0.6)] transition-all duration-300"
               >
@@ -140,16 +138,9 @@ export function Hero() {
                   <span className="h-1.5 w-1.5 rounded-full bg-[#08322b]" />
                   Register Now
                 </span>
-                <motion.div
-                  className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent)]"
-                  initial={{ x: "-130%" }}
-                  animate={allowLoopAnimations ? { x: "320%" } : undefined}
-                  transition={allowLoopAnimations ? { duration: 2.1, repeat: Infinity, ease: "linear" } : undefined}
-                />
+                <div className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent)] opacity-40" />
               </motion.button>
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
                 onClick={() => document.getElementById('events')?.scrollIntoView({ behavior: 'smooth' })}
                 className="relative group overflow-hidden px-6 md:px-8 py-2 md:py-2.5 border border-primary/60 bg-black/30 text-primary font-orbitron font-bold text-[11px] md:text-xs tracking-[0.15em] uppercase shadow-[0_0_24px_rgba(0,240,255,0.22)] hover:text-white hover:border-primary transition-all duration-300"
               >
