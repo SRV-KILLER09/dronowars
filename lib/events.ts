@@ -148,7 +148,7 @@ export const events: Event[] = [
         date: "May 2, 2026",
         location: "JIIT Wish Town Campus",
         description: "Focus on precise manual control. Guide your drone through challenging sequences like circular rings, staggered poles, and narrow corridors.",
-        image: "/obstacle-navigation.jpg",
+        image: "/image.png",
         color: "yellow",
         category: "COMPETITION",
         skillsTested: [
