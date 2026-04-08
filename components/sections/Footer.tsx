@@ -96,9 +96,6 @@ export function Footer() {
               <span className="text-[#aef0ff]">All rights reserved.</span>
             </p>
           </div>
-          <p className="text-[10px] font-mono tracking-[0.2em] text-white/40 uppercase">
-            Made with love by <span className="text-primary italic">Ansh Shourya</span> and <span className="text-accent italic">vardan</span> ❤️
-          </p>
           <p className="inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-[#00f0ff]/35 bg-[linear-gradient(135deg,rgba(0,240,255,0.10),rgba(255,122,66,0.12))] px-4 py-2 text-[11px] sm:text-xs font-orbitron tracking-[0.08em] text-white/90 shadow-[0_0_30px_rgba(0,240,255,0.12)]">
             <span className="text-white/75">Made with</span>
             <span className="text-[#ff5f7a] animate-pulse">❤️</span>

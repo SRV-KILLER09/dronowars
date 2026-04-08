@@ -1,8 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const prefersReducedMotion = useReducedMotion();
+  const [compactMode, setCompactMode] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px), (pointer: coarse)");
+    const updateCompactMode = () => setCompactMode(mediaQuery.matches);
+
+    updateCompactMode();
+    mediaQuery.addEventListener("change", updateCompactMode);
+
+    return () => mediaQuery.removeEventListener("change", updateCompactMode);
+  }, []);
+
+  const allowLoopAnimations = !prefersReducedMotion && !compactMode;
+
   return (
     <section className="relative h-screen md:h-[100dvh] flex items-center justify-center overflow-hidden">
       <div className="container mx-auto px-4 z-10 w-full">
@@ -18,8 +34,8 @@ export function Hero() {
               {[...Array(3)].map((_, i) => (
                 <motion.span
                   key={i}
-                  animate={{ opacity: [0.2, 1, 0.2] }}
-                  transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.2 }}
+                  animate={allowLoopAnimations ? { opacity: [0.2, 1, 0.2] } : undefined}
+                  transition={allowLoopAnimations ? { duration: 1.5, repeat: Infinity, delay: i * 0.2 } : undefined}
                   className="w-1 h-1 bg-primary rounded-full"
                 />
               ))}
@@ -71,8 +87,12 @@ export function Hero() {
 
             {/* Date & Time Badge */}
             <motion.div
-              animate={{ boxShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 20px rgba(0,240,255,0.4)", "0 0 0 rgba(0,240,255,0)"] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              animate={
+                allowLoopAnimations
+                  ? { boxShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 20px rgba(0,240,255,0.4)", "0 0 0 rgba(0,240,255,0)"] }
+                  : undefined
+              }
+              transition={allowLoopAnimations ? { duration: 2, repeat: Infinity, ease: "easeInOut" } : undefined}
               className="border border-primary/50 bg-gradient-to-r from-primary/10 to-accent/10 px-6 md:px-8 py-2 md:py-3 text-center backdrop-blur-sm"
             >
               <p className="text-[9px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/60 mb-0.5">Event Date</p>
@@ -89,15 +109,17 @@ export function Hero() {
             >
               <p className="text-[9px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/55 mb-1">Prize Pool</p>
               <motion.p
-                animate={{ textShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 28px rgba(0,240,255,0.45)", "0 0 0 rgba(0,240,255,0)"] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                animate={
+                  allowLoopAnimations
+                    ? { textShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 28px rgba(0,240,255,0.45)", "0 0 0 rgba(0,240,255,0)"] }
+                    : undefined
+                }
+                transition={allowLoopAnimations ? { duration: 2.4, repeat: Infinity, ease: "easeInOut" } : undefined}
                 className="text-3xl sm:text-4xl md:text-6xl font-orbitron font-black tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#ffffff_42%,#ff9f66_100%)]"
               >
                 ₹ 8,00,000 INR
               </motion.p>
             </motion.div>
-
-            <div className="w-[1px] h-2 md:h-3 bg-gradient-to-b from-transparent via-primary to-transparent" />
           </motion.div>
 
           {/* Premium Championship CTA */}
@@ -107,14 +129,6 @@ export function Hero() {
             transition={{ delay: 1.4, duration: 0.6 }}
             className="flex flex-col items-center gap-4 md:gap-6"
           >
-            <div className="flex flex-col items-center gap-2">
-              <div className="text-center text-[10px] md:text-sm font-orbitron font-bold tracking-[0.2em] text-primary">
-                ₹8 LAKHS PRIZE POOL
-              </div>
-              <div className="text-center text-[8px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/50">
-                Register Now For The Championship
-              </div>
-            </div>
             <div className="flex flex-col sm:flex-row items-center gap-2.5">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -129,8 +143,8 @@ export function Hero() {
                 <motion.div
                   className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent)]"
                   initial={{ x: "-130%" }}
-                  animate={{ x: "320%" }}
-                  transition={{ duration: 2.1, repeat: Infinity, ease: "linear" }}
+                  animate={allowLoopAnimations ? { x: "320%" } : undefined}
+                  transition={allowLoopAnimations ? { duration: 2.1, repeat: Infinity, ease: "linear" } : undefined}
                 />
               </motion.button>
               <motion.button

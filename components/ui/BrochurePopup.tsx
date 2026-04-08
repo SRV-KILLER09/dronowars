@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BookOpen, CalendarDays, Mail, MapPin, Phone, Trophy, X } from "lucide-react";
@@ -8,12 +9,58 @@ import { events } from "@/lib/events";
 
 export function BrochurePopup() {
   const [open, setOpen] = useState(false);
+  const [compactMode, setCompactMode] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = !prefersReducedMotion && !compactMode;
   const featuredEvents = events.slice(0, 4);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setOpen(true), 320);
-    return () => window.clearTimeout(timer);
+    const mediaQuery = window.matchMedia("(max-width: 1024px), (pointer: coarse)");
+    const updateCompactMode = () => setCompactMode(mediaQuery.matches);
+
+    updateCompactMode();
+    mediaQuery.addEventListener("change", updateCompactMode);
+
+    return () => mediaQuery.removeEventListener("change", updateCompactMode);
   }, []);
+
+  useEffect(() => {
+    const hasSeenKey = "dronowars-brochure-seen";
+    let timer: number | null = null;
+    let idleCallbackId: number | null = null;
+
+    try {
+      const hasSeen = window.localStorage.getItem(hasSeenKey) === "1";
+      if (hasSeen) {
+        return;
+      }
+
+      const openBrochure = () => {
+        timer = window.setTimeout(() => {
+          setOpen(true);
+          window.localStorage.setItem(hasSeenKey, "1");
+        }, compactMode ? 1600 : 700);
+      };
+
+      if (typeof window.requestIdleCallback === "function") {
+        idleCallbackId = window.requestIdleCallback(openBrochure, { timeout: 2000 });
+      } else {
+        openBrochure();
+      }
+
+      return () => {
+        if (timer !== null) {
+          window.clearTimeout(timer);
+        }
+
+        if (idleCallbackId !== null && typeof window.cancelIdleCallback === "function") {
+          window.cancelIdleCallback(idleCallbackId);
+        }
+      };
+    } catch {
+      return;
+    }
+  }, [compactMode]);
 
   return (
     <>
@@ -30,16 +77,16 @@ export function BrochurePopup() {
       <AnimatePresence>
         {open && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={shouldAnimate ? { opacity: 0 } : false}
+          animate={shouldAnimate ? { opacity: 1 } : undefined}
+          exit={shouldAnimate ? { opacity: 0 } : undefined}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(1,2,8,0.82)] backdrop-blur-sm px-4"
         >
           <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.975 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            initial={shouldAnimate ? { opacity: 0, y: 24, scale: 0.975 } : false}
+            animate={shouldAnimate ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            exit={shouldAnimate ? { opacity: 0, y: 16, scale: 0.98 } : undefined}
+            transition={shouldAnimate ? { duration: 0.4, ease: "easeOut" } : undefined}
             className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden border border-white/20 bg-[linear-gradient(155deg,rgba(4,8,18,0.96),rgba(3,4,12,0.94))] shadow-[0_30px_100px_rgba(0,0,0,0.7)]"
           >
             <button
@@ -66,7 +113,6 @@ export function BrochurePopup() {
                         width={80}
                         height={80}
                         className="h-full w-full object-cover"
-                        priority
                       />
                     </div>
                     <div>
@@ -84,8 +130,8 @@ export function BrochurePopup() {
                   </div>
 
                   <motion.div
-                    animate={{ boxShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 18px rgba(0,240,255,0.28)", "0 0 0 rgba(0,240,255,0)"] }}
-                    transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                    animate={shouldAnimate ? { boxShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 18px rgba(0,240,255,0.28)", "0 0 0 rgba(0,240,255,0)"] } : undefined}
+                    transition={shouldAnimate ? { duration: 2.4, repeat: Infinity, ease: "easeInOut" } : undefined}
                     className="self-start md:self-auto border border-[#00f0ff]/40 bg-[linear-gradient(140deg,rgba(0,240,255,0.2),rgba(0,240,255,0.06))] px-4 py-2 text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-[#bffbff] whitespace-nowrap"
                   >
                     May 2-3, 2026
@@ -100,9 +146,21 @@ export function BrochurePopup() {
                     Total Prize Pool
                   </div>
                   <motion.p
-                    initial={{ opacity: 0.4, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: [1, 1.03, 1], filter: ["drop-shadow(0 0 0px rgba(0,240,255,0))", "drop-shadow(0 0 16px rgba(0,240,255,0.25))", "drop-shadow(0 0 0px rgba(0,240,255,0))"] }}
-                    transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                    initial={shouldAnimate ? { opacity: 0.4, scale: 0.96 } : false}
+                    animate={
+                      shouldAnimate
+                        ? {
+                            opacity: 1,
+                            scale: [1, 1.03, 1],
+                            filter: [
+                              "drop-shadow(0 0 0px rgba(0,240,255,0))",
+                              "drop-shadow(0 0 16px rgba(0,240,255,0.25))",
+                              "drop-shadow(0 0 0px rgba(0,240,255,0))",
+                            ],
+                          }
+                        : undefined
+                    }
+                    transition={shouldAnimate ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" } : undefined}
                     className="text-4xl md:text-7xl font-orbitron font-black tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#ff4d00_0%,#ff9f2f_45%,#00f0ff_100%)]"
                   >
                     Rs. 8,00,000

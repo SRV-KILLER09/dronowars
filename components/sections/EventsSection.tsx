@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { events, Event } from "@/lib/events";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MoreVertical, Circle, X } from "lucide-react";
 import { EventTimeline } from "./EventTimeline";
 
@@ -11,16 +11,29 @@ const categories = ["ALL", "COMPETITION", "EXHIBITION"] as const;
 export function EventsSection() {
   const [activeCategory, setActiveCategory] = useState<typeof categories[number]>("ALL");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [compactMode, setCompactMode] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = !compactMode && !prefersReducedMotion;
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 1024px), (pointer: coarse)");
+    const updateCompactMode = () => setCompactMode(mediaQuery.matches);
+
+    updateCompactMode();
+    mediaQuery.addEventListener("change", updateCompactMode);
+
+    return () => mediaQuery.removeEventListener("change", updateCompactMode);
+  }, []);
 
   const filteredEvents = events.filter(
     (event) => activeCategory === "ALL" || event.category === activeCategory
   );
 
   return (
-    <section id="events" className="py-24 relative overflow-hidden bg-black">
+    <section id="events" className="pt-32 md:pt-40 pb-24 relative overflow-hidden bg-black scroll-mt-32">
       <div className="container mx-auto px-4 z-10 relative">
         {/* Header matching image */}
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-12 mt-4 md:mt-8">
           <div className="flex items-center gap-4">
             <div className="relative flex items-center justify-center">
               <Circle size={48} className="text-white/20" />
@@ -57,112 +70,78 @@ export function EventsSection() {
 
         {/* Grid matching image card style */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-          <AnimatePresence mode="popLayout">
-            {filteredEvents.slice(0, 3).map((event, index) => (
-              <motion.div
-                key={event.slug}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#1A1A1A] border border-white/5 cursor-pointer"
-                onClick={() => setSelectedEvent(event)}
-              >
+          {filteredEvents.slice(0, 3).map((event, index) => (
+            <motion.div
+              key={event.slug}
+              layout={shouldAnimate}
+              initial={shouldAnimate ? { opacity: 0, scale: 0.9 } : false}
+              animate={shouldAnimate ? { opacity: 1, scale: 1 } : undefined}
+              transition={shouldAnimate ? { duration: 0.5, delay: index * 0.1 } : undefined}
+              className="group relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#060606] border border-white/5 cursor-pointer"
+              onClick={() => setSelectedEvent(event)}
+            >
                 <div className="block w-full h-full">
                   {/* Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                    style={{ backgroundImage: `url(${event.image})` }}
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover object-center opacity-100 transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
-
-                  {/* Vertical Label */}
-                  <div className="absolute right-0 top-0 bottom-0 w-12 flex items-center justify-center border-l border-white/10 bg-black/40 backdrop-blur-sm">
-                    <span className="rotate-90 origin-center whitespace-nowrap font-mono text-[10px] tracking-[0.5em] text-white/40 uppercase">
-                      {event.category}
-                    </span>
-                  </div>
-
-                  {/* Top Badges */}
-                  <div className="absolute top-6 left-6 flex items-center gap-4">
-                    <div className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 font-mono text-[9px] tracking-widest text-white uppercase">
-                      {event.category}
-                    </div>
-                    <MoreVertical size={16} className="text-white/40" />
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
                   {/* Bottom Content */}
-                  <div className="absolute bottom-8 left-8 right-8">
-                    <h3 className="text-2xl font-orbitron font-black text-white leading-tight tracking-widest uppercase group-hover:text-primary transition-colors">
+                  <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/45 px-3 py-1 font-mono text-[9px] tracking-[0.35em] text-white/70 uppercase backdrop-blur-md mb-3">
+                      {event.category}
+                    </div>
+                    <h3 className="text-xl md:text-2xl font-orbitron font-black text-white leading-tight tracking-widest uppercase">
                       {event.title}
                     </h3>
-                    <div className="mt-5 flex items-start gap-4">
-                      <div className="w-8 h-[2px] bg-white/20 mt-2 shrink-0" />
-                      <p className="text-xs font-mono text-white/60 uppercase tracking-[0.15em] leading-loose">
-                        {event.description.length > 80 ? event.description.substring(0, 80) + "..." : event.description}
-                      </p>
-                    </div>
+                    <p className="mt-3 text-[11px] md:text-xs font-mono text-white/70 leading-relaxed max-w-[92%]">
+                      {event.description.length > 80 ? event.description.substring(0, 80) + "..." : event.description}
+                    </p>
                   </div>
-
-                  {/* Subtle Border Glow */}
-                  <div className="absolute inset-0 border border-white/0 group-hover:border-white/10 transition-colors pointer-events-none" />
                 </div>
               </motion.div>
             ))}
-          </AnimatePresence>
         </div>
 
         {/* Bottom Row Centered */}
         <div className="flex flex-wrap justify-center gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredEvents.slice(3).map((event, index) => (
-              <motion.div
-                key={event.slug}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, delay: (index + 3) * 0.1 }}
-                className="group relative aspect-[4/5] w-full md:w-[calc(50%-16px)] lg:w-[calc(33.33%-22px)] overflow-hidden rounded-2xl bg-[#1A1A1A] border border-white/5 cursor-pointer"
-                onClick={() => setSelectedEvent(event)}
-              >
+          {filteredEvents.slice(3).map((event, index) => (
+            <motion.div
+              key={event.slug}
+              layout={shouldAnimate}
+              initial={shouldAnimate ? { opacity: 0, scale: 0.9 } : false}
+              animate={shouldAnimate ? { opacity: 1, scale: 1 } : undefined}
+              transition={shouldAnimate ? { duration: 0.5, delay: (index + 3) * 0.1 } : undefined}
+              className="group relative aspect-[4/5] w-full md:w-[calc(50%-16px)] lg:w-[calc(33.33%-22px)] overflow-hidden rounded-2xl bg-[#060606] border border-white/5 cursor-pointer"
+              onClick={() => setSelectedEvent(event)}
+            >
                 <div className="block w-full h-full">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                    style={{ backgroundImage: `url(${event.image})` }}
+                  <img
+                    src={event.image}
+                    alt={event.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover object-center opacity-100 transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-                  <div className="absolute right-0 top-0 bottom-0 w-12 flex items-center justify-center border-l border-white/10 bg-black/40 backdrop-blur-sm">
-                    <span className="rotate-90 origin-center whitespace-nowrap font-mono text-[10px] tracking-[0.5em] text-white/40 uppercase">
-                      {event.category}
-                    </span>
-                  </div>
-
-                  <div className="absolute top-6 left-6 flex items-center gap-4">
-                    <div className="px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 font-mono text-[9px] tracking-widest text-white uppercase">
+                  <div className="absolute inset-x-0 bottom-0 z-10 p-5 md:p-6 text-left">
+                    <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/45 px-3 py-1 font-mono text-[9px] tracking-[0.35em] text-white/70 uppercase backdrop-blur-md mb-3">
                       {event.category}
                     </div>
-                    <MoreVertical size={16} className="text-white/40" />
-                  </div>
-
-                  <div className="absolute bottom-8 left-8 right-8 text-left">
-                    <h3 className="text-2xl font-orbitron font-black text-white leading-tight tracking-widest uppercase group-hover:text-primary transition-colors">
+                    <h3 className="text-xl md:text-2xl font-orbitron font-black text-white leading-tight tracking-widest uppercase">
                       {event.title}
                     </h3>
-                    <div className="mt-5 flex items-start gap-4">
-                      <div className="w-8 h-[2px] bg-white/20 mt-2 shrink-0" />
-                      <p className="text-xs font-mono text-white/60 uppercase tracking-[0.15em] leading-loose">
-                        {event.description.length > 80 ? event.description.substring(0, 80) + "..." : event.description}
-                      </p>
-                    </div>
+                    <p className="mt-3 text-[11px] md:text-xs font-mono text-white/70 leading-relaxed max-w-[92%]">
+                      {event.description.length > 80 ? event.description.substring(0, 80) + "..." : event.description}
+                    </p>
                   </div>
-                  <div className="absolute inset-0 border border-white/0 group-hover:border-white/10 transition-colors pointer-events-none" />
                 </div>
               </motion.div>
             ))}
-          </AnimatePresence>
         </div>
       </div>
 
@@ -170,9 +149,9 @@ export function EventsSection() {
       <AnimatePresence>
         {selectedEvent && (
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
+            initial={shouldAnimate ? { opacity: 0, y: 50 } : false}
+            animate={shouldAnimate ? { opacity: 1, y: 0 } : undefined}
+            exit={shouldAnimate ? { opacity: 0, y: 20 } : undefined}
             className="fixed inset-0 z-[100] bg-[#0c0c0c] overflow-y-auto"
           >
             {/* Fixed Close Button */}
@@ -251,16 +230,19 @@ export function EventsSection() {
                 className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 w-full mt-auto"
               >
                 {/* Visual Card */}
-                <div className="group relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 bg-[#111] shadow-[0_20px_55px_rgba(0,0,0,0.45)]">
+                <div className="group relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[16/9] rounded-3xl overflow-hidden border border-white/10 bg-[#050505] shadow-[0_20px_55px_rgba(0,0,0,0.45)]">
                   <div className="absolute top-5 left-5 z-10 inline-flex items-center gap-2 border border-[#ff7a3d]/45 bg-[linear-gradient(125deg,rgba(255,122,61,0.32),rgba(255,122,61,0.12))] px-3 py-1 text-[10px] font-mono tracking-[0.18em] uppercase text-[#ffd4c0]">
                     <span className="font-bold text-[#ff5f1f]">01</span>
                     Focus Matrix
                   </div>
-                  <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${selectedEvent.image})` }}
+                  <img
+                    src={selectedEvent.image}
+                    alt={selectedEvent.title}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(0,240,255,0.15),transparent_40%),radial-gradient(circle_at_85%_20%,rgba(255,77,0,0.18),transparent_38%)]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/12 to-transparent" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(0,240,255,0.08),transparent_42%),radial-gradient(circle_at_85%_20%,rgba(255,77,0,0.1),transparent_40%)]" />
                   <div className="absolute flex flex-col justify-end p-8 inset-0 z-10">
                     <h3 className="font-mono text-xs md:text-sm tracking-[0.28em] text-[#c7f9ff] uppercase mb-3">Flight Skills Tested</h3>
                     <ul className="space-y-2 font-sans text-sm md:text-[1.05rem] text-white/95 font-light">

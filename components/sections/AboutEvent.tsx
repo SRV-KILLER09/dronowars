@@ -1,12 +1,35 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { Mic } from "lucide-react";
+import { useState, useEffect } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { WhatsAppPopupContent } from "@/components/ui/WhatsAppPopup";
 
 export function AboutEvent() {
+  const [whatsappOpen, setWhatsappOpen] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(true); // Default to dismissed to prevent hydration issues
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = !prefersReducedMotion;
+
+  // Check localStorage on mount
+  useEffect(() => {
+    try {
+      const wasDismissed = window.localStorage.getItem("dronowars-whatsapp-dismissed") === "1";
+      setIsDismissed(wasDismissed);
+    } catch {
+      setIsDismissed(true);
+    }
+  }, []);
+
+  const handleWhatsappClick = () => {
+    if (!isDismissed) {
+      setWhatsappOpen(true);
+    }
+  };
+
   return (
     <section id="about" className="pt-10 pb-12 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_15%,rgba(0,240,255,0.12),transparent_38%),radial-gradient(circle_at_80%_20%,rgba(255,77,0,0.12),transparent_36%)]" />
@@ -74,7 +97,7 @@ export function AboutEvent() {
                 size="sm"
                 variant="outline"
                 className="w-full sm:w-auto sm:min-w-[220px]"
-                onClick={() => window.open("https://chat.whatsapp.com/EX3scdIr9TzLkWh4VxvXUA", "_blank", "noopener,noreferrer")}
+                onClick={handleWhatsappClick}
               >
                 WHATSAPP GROUP
               </Button>
@@ -83,6 +106,12 @@ export function AboutEvent() {
           </Card>
         </div>
       </div>
+      
+      <WhatsAppPopupContent 
+        open={whatsappOpen} 
+        onClose={() => setWhatsappOpen(false)} 
+        shouldAnimate={shouldAnimate}
+      />
     </section>
   );
 }
