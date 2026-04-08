@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { BookOpen, CalendarDays, Mail, MapPin, Phone, Trophy, X } from "lucide-react";
@@ -8,12 +9,58 @@ import { events } from "@/lib/events";
 
 export function BrochurePopup() {
   const [open, setOpen] = useState(false);
-  const featuredEvents = events.slice(0, 5);
+  const [compactMode, setCompactMode] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+  const shouldAnimate = !prefersReducedMotion && !compactMode;
+  const featuredEvents = events.slice(0, 4);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setOpen(true), 320);
-    return () => window.clearTimeout(timer);
+    const mediaQuery = window.matchMedia("(max-width: 1024px), (pointer: coarse)");
+    const updateCompactMode = () => setCompactMode(mediaQuery.matches);
+
+    updateCompactMode();
+    mediaQuery.addEventListener("change", updateCompactMode);
+
+    return () => mediaQuery.removeEventListener("change", updateCompactMode);
   }, []);
+
+  useEffect(() => {
+    const hasSeenKey = "dronowars-brochure-seen";
+    let timer: number | null = null;
+    let idleCallbackId: number | null = null;
+
+    try {
+      const hasSeen = window.localStorage.getItem(hasSeenKey) === "1";
+      if (hasSeen) {
+        return;
+      }
+
+      const openBrochure = () => {
+        timer = window.setTimeout(() => {
+          setOpen(true);
+          window.localStorage.setItem(hasSeenKey, "1");
+        }, compactMode ? 1600 : 700);
+      };
+
+      if (typeof window.requestIdleCallback === "function") {
+        idleCallbackId = window.requestIdleCallback(openBrochure, { timeout: 2000 });
+      } else {
+        openBrochure();
+      }
+
+      return () => {
+        if (timer !== null) {
+          window.clearTimeout(timer);
+        }
+
+        if (idleCallbackId !== null && typeof window.cancelIdleCallback === "function") {
+          window.cancelIdleCallback(idleCallbackId);
+        }
+      };
+    } catch {
+      return;
+    }
+  }, [compactMode]);
 
   return (
     <>
@@ -29,11 +76,18 @@ export function BrochurePopup() {
 
       <AnimatePresence>
         {open && (
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0 } : false}
+          animate={shouldAnimate ? { opacity: 1 } : undefined}
+          exit={shouldAnimate ? { opacity: 0 } : undefined}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(1,2,8,0.82)] backdrop-blur-sm px-4"
+        >
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(1,2,8,0.82)] backdrop-blur-sm px-4"
+            initial={shouldAnimate ? { opacity: 0, y: 24, scale: 0.975 } : false}
+            animate={shouldAnimate ? { opacity: 1, y: 0, scale: 1 } : undefined}
+            exit={shouldAnimate ? { opacity: 0, y: 16, scale: 0.98 } : undefined}
+            transition={shouldAnimate ? { duration: 0.4, ease: "easeOut" } : undefined}
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto overflow-x-hidden border border-white/20 bg-[linear-gradient(155deg,rgba(4,8,18,0.96),rgba(3,4,12,0.94))] shadow-[0_30px_100px_rgba(0,0,0,0.7)]"
           >
             <motion.div
               initial={{ opacity: 0, y: 24, scale: 0.975 }}
@@ -55,29 +109,18 @@ export function BrochurePopup() {
               <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.028)_1px,transparent_1px)] bg-[size:38px_38px] opacity-20 pointer-events-none" />
               <div className="pointer-events-none absolute left-8 right-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/60 to-transparent" />
 
-              <div className="relative z-10 p-6 md:p-10">
-                <div className="flex flex-col gap-6 border-b border-white/10 pb-7">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-                    <div className="flex items-center gap-4">
-                      <div className="h-12 w-12 md:h-20 md:w-20 overflow-hidden rounded-full border border-white/25 bg-white/95 shrink-0 shadow-[0_0_18px_rgba(0,240,255,0.25)]">
-                        <Image
-                          src="/jiit-logo.png"
-                          alt="Jaypee Institute of Information Technology"
-                          width={80}
-                          height={80}
-                          className="h-full w-full object-cover"
-                          priority
-                        />
-                      </div>
-                      <div>
-                        <p className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-[#00f0ff] mb-1">DronoWar 2026</p>
-                        <h1 className="text-xl md:text-4xl font-orbitron font-black uppercase leading-[0.95] tracking-[0.12em] text-white">
-                          DRON-O-WAR 1.0
-                        </h1>
-                        <p className="text-xs md:text-sm text-[#9ff8ff] font-mono tracking-[0.08em] uppercase">
-                          Jaypee Institute of Information Technology
-                        </p>
-                      </div>
+            <div className="relative z-10 p-6 md:p-10">
+              <div className="flex flex-col gap-6 border-b border-white/10 pb-7">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                  <div className="flex items-center gap-4">
+                    <div className="h-16 w-16 md:h-20 md:w-20 overflow-hidden rounded-full border border-white/25 bg-white/95 shrink-0 shadow-[0_0_18px_rgba(0,240,255,0.25)]">
+                      <Image
+                        src="/jiit-logo.png"
+                        alt="Jaypee Institute of Information Technology"
+                        width={80}
+                        height={80}
+                        className="h-full w-full object-cover"
+                      />
                     </div>
 
                     <motion.div
@@ -113,9 +156,9 @@ export function BrochurePopup() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-6">
                   <motion.div
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.2 }}
-                    className="relative border border-[#00f0ff]/25 bg-[linear-gradient(165deg,rgba(0,240,255,0.08),rgba(0,0,0,0.2))] p-4 overflow-hidden"
+                    animate={shouldAnimate ? { boxShadow: ["0 0 0 rgba(0,240,255,0)", "0 0 18px rgba(0,240,255,0.28)", "0 0 0 rgba(0,240,255,0)"] } : undefined}
+                    transition={shouldAnimate ? { duration: 2.4, repeat: Infinity, ease: "easeInOut" } : undefined}
+                    className="self-start md:self-auto border border-[#00f0ff]/40 bg-[linear-gradient(140deg,rgba(0,240,255,0.2),rgba(0,240,255,0.06))] px-4 py-2 text-[10px] md:text-xs font-mono tracking-[0.2em] uppercase text-[#bffbff] whitespace-nowrap"
                   >
                     <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/70 to-transparent" />
                     <p className="text-[10px] font-mono tracking-[0.24em] uppercase text-[#00f0ff] mb-3">Events</p>
@@ -128,10 +171,30 @@ export function BrochurePopup() {
                     </div>
                   </motion.div>
 
-                  <motion.div
-                    whileHover={{ y: -4 }}
-                    transition={{ duration: 0.2 }}
-                    className="relative border border-[#ff4d00]/25 bg-[linear-gradient(165deg,rgba(255,77,0,0.07),rgba(0,0,0,0.2))] p-4 overflow-hidden"
+                <div className="relative overflow-hidden border border-[#ff4d00]/35 bg-[linear-gradient(140deg,rgba(255,77,0,0.16),rgba(0,240,255,0.1))] p-4 md:p-6 text-center shadow-[0_0_26px_rgba(255,77,0,0.12)]">
+                  <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,159,47,0.18),transparent_45%)]" />
+                  <div className="pointer-events-none absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-[#ffb08a]/70 to-transparent" />
+                  <div className="inline-flex items-center gap-2 border border-[#ffb08a]/30 bg-[#ffb08a]/10 px-3 py-1 text-[10px] md:text-xs font-mono tracking-[0.22em] uppercase text-[#ffd6c8] mb-3">
+                    <Trophy className="h-4 w-4 text-[#ffb08a]" />
+                    Total Prize Pool
+                  </div>
+                  <motion.p
+                    initial={shouldAnimate ? { opacity: 0.4, scale: 0.96 } : false}
+                    animate={
+                      shouldAnimate
+                        ? {
+                            opacity: 1,
+                            scale: [1, 1.03, 1],
+                            filter: [
+                              "drop-shadow(0 0 0px rgba(0,240,255,0))",
+                              "drop-shadow(0 0 16px rgba(0,240,255,0.25))",
+                              "drop-shadow(0 0 0px rgba(0,240,255,0))",
+                            ],
+                          }
+                        : undefined
+                    }
+                    transition={shouldAnimate ? { duration: 2.6, repeat: Infinity, ease: "easeInOut" } : undefined}
+                    className="text-4xl md:text-7xl font-orbitron font-black tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#ff4d00_0%,#ff9f2f_45%,#00f0ff_100%)]"
                   >
                     <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-[#ff4d00]/70 to-transparent" />
                     <p className="text-[10px] font-mono tracking-[0.24em] uppercase text-[#ffb08a] mb-3">Location</p>

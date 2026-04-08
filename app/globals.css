@@ -99,3 +99,17 @@ body {
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
+@media (max-width: 1024px), (pointer: coarse) {
+  .backdrop-blur-sm,
+  .backdrop-blur,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl,
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}

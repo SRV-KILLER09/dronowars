@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Orbitron } from "next/font/google";
 import "./globals.css";
-import { BackgroundGrid } from "@/components/ui/BackgroundGrid";
+import { MotionPerformanceProvider } from "@/components/ui/MotionPerformanceProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -33,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${orbitron.variable} antialiased bg-background text-foreground`}
       >
-        <div className="relative z-10">{children}</div>
+        <MotionPerformanceProvider>
+          <div className="relative z-10">{children}</div>
+        </MotionPerformanceProvider>
       </body>
     </html>
   );

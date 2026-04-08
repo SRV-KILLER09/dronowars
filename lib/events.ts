@@ -30,7 +30,7 @@ export const events: Event[] = [
         location: "JIIT Wish Town Campus",
         description: "Fpv will be racing event with obstacles for both drone with goggles and LOS \n\nShortest leap time will be recorded",
         longDescription: "An FPV Drone Racing Challenge is a high-intensity competition that puts a pilot's ability to the test as they navigate their drone through a fast-paced obstacle course. The event is crafted to showcase precision in control, rapid decision-making, agility, spatial awareness, and sharp reflexes in dynamic, real-world racing conditions.\n\nTo ensure fairness and technical merit, only custom-built multi-rotor drones are allowed. Ready-to-Fly (RTF) commercially purchased drones are strictly prohibited.",
-        image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=1000&auto=format&fit=crop",
+        image: "/event-fpv-racing.jpg",
         color: "primary",
         category: "COMPETITION",
         skillsTested: [
@@ -59,8 +59,8 @@ export const events: Event[] = [
         title: "Payload Delivery Mission",
         date: "May 2-3, 2026",
         location: "JIIT Wish Town Campus",
-        description: "Payload need to drop designated payload from one spot to another while passing obstacles and points will be for landing and obstacle clearance",
-        image: "https://images.unsplash.com/photo-1521405617584-1d9867aecad3?q=80&w=1000&auto=format&fit=crop",
+        description: "Simulates real-world drone logistics. Navigate, visually identify the drop zone, and release payload accurately.",
+        image: "/event-payload-delivery.jpg",
         color: "secondary",
         category: "COMPETITION",
         skillsTested: [
@@ -90,8 +90,8 @@ export const events: Event[] = [
         title: "Autonomous Drone Mission",
         date: "May 3, 2026",
         location: "JIIT Wish Town Campus",
-        description: "Autonomous drone need to find designated hover area using cameras and hover their",
-        image: "https://images.unsplash.com/photo-1473968512647-3e447244af8f?q=80&w=1000&auto=format&fit=crop",
+        description: "Program your drone to complete mission stages without human control: autonomous takeoff, navigation, marker detection, and precision landing.",
+        image: "/event-autonomous-mission.jpg",
         color: "accent",
         category: "COMPETITION",
         skillsTested: [
@@ -117,8 +117,8 @@ export const events: Event[] = [
         title: "RC Plane",
         date: "May 2, 2026",
         location: "JIIT Wish Town Campus",
-        description: "Design and pilot custom Radio-Controlled planes through a challenging flight course. Showcase aerodynamic efficiency, precise maneuverability, and controlled flight in confined spaces.",
-        image: "https://images.unsplash.com/photo-1506947411487-a56738267384?q=80&w=1000&auto=format&fit=crop",
+        description: "Focus on precise manual control. Guide your drone through challenging sequences like circular rings, staggered poles, and narrow corridors.",
+        image: "/event-obstacle-navigation.jpg",
         color: "yellow",
         category: "COMPETITION",
         skillsTested: [
@@ -145,7 +145,7 @@ export const events: Event[] = [
         date: "May 2-3, 2026",
         location: "JIIT Wish Town Campus",
         description: "Present a drone design or prototype demonstrating innovation, technical advancement, or a novel application. Focus on engineering creativity.",
-        image: "https://images.unsplash.com/photo-1555626906-fcf10d6851b4?q=80&w=1000&auto=format&fit=crop",
+        image: "/event-drone-design.jpg",
         color: "cyan",
         category: "EXHIBITION",
         skillsTested: [

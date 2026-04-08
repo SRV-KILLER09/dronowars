@@ -5,10 +5,12 @@ import { Event } from "@/lib/events";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 import { ArrowLeft, Calendar, MapPin, Share2 } from "lucide-react";
+import { CacheCleanButton } from "@/components/ui/CacheCleanButton";
 
 export function EventClientPage({ event }: { event: Event }) {
   return (
     <main className="min-h-screen pt-32 pb-20 overflow-hidden">
+      <CacheCleanButton />
       <div className="container mx-auto px-4 z-10 relative">
         {/* Back Link */}
         <Link 
