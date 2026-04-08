@@ -71,7 +71,7 @@ export function Hero() {
             className="flex flex-col items-center gap-2 md:gap-3 mb-3 md:mb-4"
           >
             <div className="w-[1px] h-4 md:h-6 bg-gradient-to-b from-transparent via-primary to-transparent" />
-            
+
             {/* Event Title */}
             <div className="text-center">
               <p className="text-[9px] md:text-xs font-mono uppercase tracking-[0.2em] md:tracking-[0.3em] text-primary mb-1 md:mb-2">
@@ -167,7 +167,7 @@ export function Hero() {
           </div>
         ))}
       </div>
-      
+
       <div className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col items-end gap-12 opacity-20 text-right">
         <div className="rotate-90 origin-right translate-x-8 translate-y-8 font-mono text-[7px] uppercase tracking-[0.4em] text-white">
           NET PROTOCOL

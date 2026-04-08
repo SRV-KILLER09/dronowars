@@ -185,11 +185,10 @@ export const events: Event[] = [
             "Presentation and technical communication"
         ],
         prizePool: {
-            total: "1,20,000",
-            first: "50,000",
-            second: "30,000",
-            third: "20,000",
-            other: "Best Innovation Award: 40,000"
+            total: "TBD",
+            first: "TBD",
+            second: "TBD",
+            third: "TBD"
         },
         timeline: {
             day1: [
