@@ -75,8 +75,6 @@ export function Footer() {
             <h4 className="text-[#ffd0b3] font-orbitron font-bold tracking-widest mb-6">CONTACT</h4>
             <ul className="space-y-3 text-[#ffc9ad]/85 text-sm">
               <li>contact@dronotics.in</li>
-              <li className="whitespace-nowrap">Vaibhav Katariya: +91 7015000239</li>
-              <li>Yasharth Singh: +91 8448173449</li>
               {/* <li className="pt-4 flex gap-4">
                 <a href="#" aria-label="Twitter" title="Twitter" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#ff8a4b]/20 flex items-center justify-center transition-colors border border-white/10 hover:border-[#ff8a4b]/50 text-white hover:text-[#ffb07d]"><Twitter size={18} /></a>
                 <a href="#" aria-label="LinkedIn" title="LinkedIn" className="w-10 h-10 rounded-full bg-white/5 hover:bg-[#ff8a4b]/20 flex items-center justify-center transition-colors border border-white/10 hover:border-[#ff8a4b]/50 text-white hover:text-[#ffb07d]"><Linkedin size={18} /></a>
