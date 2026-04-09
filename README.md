@@ -55,9 +55,9 @@ To run this project locally:
 
 If you have any questions about the event, feel free to reach out to the organizing team:
 
-- **Email:** contact@dronotics.in
-- **Yasharth Singh:** +91 8448173449
-- **Vaibhav Katariya:** +91 7015000239
+- **Email:** support@dronotics.in
+- **Yasharth Singh**
+- **Vaibhav Katariya**
 
 ---
 

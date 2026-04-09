@@ -2,7 +2,6 @@ import { Navbar } from "@/components/sections/Navbar";
 import { Hero } from "@/components/sections/Hero";
 import { AboutEvent } from "@/components/sections/AboutEvent";
 import { EventsSection } from "@/components/sections/EventsSection";
-import { FAQs } from "@/components/sections/FAQs";
 import { Prizes } from "@/components/sections/Prizes";
 import { RegistrationCTA } from "@/components/sections/RegistrationCTA";
 import { Footer } from "@/components/sections/Footer";

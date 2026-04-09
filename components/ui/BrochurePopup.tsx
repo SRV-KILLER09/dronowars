@@ -11,8 +11,17 @@ export function BrochurePopup() {
   const [open, setOpen] = useState(false);
   const [compactMode, setCompactMode] = useState(false);
   const prefersReducedMotion = useReducedMotion();
-  const shouldAnimate = !prefersReducedMotion && !compactMode;
-  const featuredEvents = events.slice(0, 4);
+  const shouldAnimate = false && !prefersReducedMotion && !compactMode;
+  const featuredEventSlugs = [
+    "fpv-racing",
+    "payload-delivery",
+    "autonomous-mission",
+    "drone-design",
+    "obstacle-navigation",
+  ];
+  const featuredEvents = featuredEventSlugs
+    .map((slug) => events.find((event) => event.slug === slug))
+    .filter((event): event is (typeof events)[number] => Boolean(event));
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 1024px), (pointer: coarse)");
@@ -80,7 +89,7 @@ export function BrochurePopup() {
           initial={shouldAnimate ? { opacity: 0 } : false}
           animate={shouldAnimate ? { opacity: 1 } : undefined}
           exit={shouldAnimate ? { opacity: 0 } : undefined}
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(1,2,8,0.82)] backdrop-blur-sm px-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-[rgba(1,2,8,0.88)] px-4"
         >
           <motion.div
             initial={shouldAnimate ? { opacity: 0, y: 24, scale: 0.975 } : false}
@@ -116,15 +125,17 @@ export function BrochurePopup() {
                       />
                     </div>
                     <div>
-                      <p className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-[#00f0ff] mb-1">DronoWar 2026</p>
-                      <h1 className="text-3xl md:text-5xl font-orbitron font-black uppercase leading-[0.95] tracking-[0.12em] text-white">
-                        Dronowar
-                      </h1>
-                      <p className="mt-1 text-[10px] md:text-xs font-mono tracking-[0.16em] uppercase text-white/65">
-                        In association with
+                      <p className="text-[10px] md:text-xs font-mono tracking-[0.3em] uppercase text-[#00f0ff] mb-1">
+                        DRONO-O-WAR 1.0
                       </p>
-                      <p className="text-xs md:text-sm text-[#9ff8ff] font-mono tracking-[0.08em] uppercase">
-                        Jaypee Institute of Information Technology
+                      <h1 className="whitespace-nowrap text-[clamp(1.1rem,3.8vw,3.2rem)] font-orbitron font-black uppercase leading-none tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#e8feff_50%,#ff9b66_100%)]">
+                        DRONO-O-WAR 1.0
+                      </h1>
+                      <p className="mt-1 text-[10px] md:text-xs font-mono tracking-[0.16em] uppercase text-white/50">
+                        IN ASSOCIATION WITH
+                      </p>
+                      <p className="text-xs md:text-sm text-[#00f0ff] font-mono tracking-[0.12em] uppercase">
+                        JAYPEE INSTITUTE OF INFORMATION TECHNOLOGY
                       </p>
                     </div>
                   </div>
@@ -183,7 +194,7 @@ export function BrochurePopup() {
                   <div className="space-y-2">
                     {featuredEvents.map((event) => (
                       <div key={event.slug} className="border border-white/15 bg-black/30 px-3 py-2 text-[11px] text-white/85 font-mono uppercase tracking-[0.12em]">
-                        {event.title}
+                        {event.slug === "obstacle-navigation" ? "RC Plane" : event.title}
                       </div>
                     ))}
                   </div>
@@ -216,7 +227,13 @@ export function BrochurePopup() {
                   <div className="space-y-3 text-sm text-white/85">
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-[#00f0ff]" />
-                      <span>contact@dronotics.in</span>
+                      <span>support@dronotics.in</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="whitespace-nowrap text-xs md:text-sm">Yasharth Singh</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="whitespace-nowrap text-xs md:text-sm">Vaibhav Katariya</span>
                     </div>
                     <a
                       href="https://maps.google.com/?q=Jaypee+Institute+of+Information+Technology+Sector+128+Noida"

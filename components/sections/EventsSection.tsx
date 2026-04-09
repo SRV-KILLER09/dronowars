@@ -1,8 +1,9 @@
-"use client";
+  "use client";
 
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { events, Event } from "@/lib/events";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { MoreVertical, Circle, X } from "lucide-react";
 import { EventTimeline } from "./EventTimeline";
 
@@ -19,28 +20,38 @@ function EventPreviewCard({
   shouldAnimate: boolean;
   index: number;
 }) {
+  const [imageSrc, setImageSrc] = useState(event.image);
   const blurb = event.description.length > 74 ? `${event.description.slice(0, 74)}...` : event.description;
+
+  useEffect(() => {
+    setImageSrc(event.image);
+  }, [event.image]);
 
   return (
     <motion.article
       layout={shouldAnimate}
       initial={shouldAnimate ? { opacity: 0, y: 30, scale: 0.98 } : false}
-      animate={shouldAnimate ? { opacity: 1, y: 0, scale: 1 } : undefined}
-      transition={shouldAnimate ? { duration: 0.48, delay: index * 0.08 } : undefined}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={shouldAnimate ? { duration: 0.48, delay: index * 0.08 } : { duration: 0 }}
       className="group relative w-full aspect-[3/4] min-h-[440px] overflow-hidden rounded-[14px] border border-white/15 bg-[linear-gradient(155deg,#111421_0%,#090a11_48%,#050608_100%)] shadow-[0_20px_45px_rgba(0,0,0,0.55)] cursor-pointer"
       onClick={() => onSelect(event)}
     >
-      <img
-        src={event.image}
+      {event.eligibilityNote && (
+        <div className="pointer-events-none absolute left-0 top-0 z-20 flex h-11 w-[270px] origin-top-left -translate-x-14 translate-y-6 -rotate-45 items-center justify-center overflow-hidden border border-[#ffe08e]/80 bg-[linear-gradient(120deg,rgba(255,208,116,0.98),rgba(255,153,82,0.96)_58%,rgba(255,120,72,0.95))] px-3 text-center font-orbitron text-[10px] font-black uppercase leading-none tracking-[0.16em] text-[#2a1308] shadow-[0_14px_34px_rgba(255,168,74,0.45),0_0_0_1px_rgba(255,238,183,0.45)_inset]">
+          <span className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.42),transparent)] opacity-40" />
+          <span className="relative whitespace-nowrap">JIIT NOIDA STUDENTS ONLY</span>
+        </div>
+      )}
+
+      <Image
+        src={imageSrc}
         alt={event.title}
-        loading="lazy"
-        onError={(e) => {
-          const img = e.currentTarget;
-          if (img.dataset.fallbackApplied === "true") {
-            return;
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        onError={() => {
+          if (imageSrc !== "/event-obstacle-navigation.jpg") {
+            setImageSrc("/event-obstacle-navigation.jpg");
           }
-          img.dataset.fallbackApplied = "true";
-          img.src = "/event-obstacle-navigation.jpg";
         }}
         className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.06]"
       />

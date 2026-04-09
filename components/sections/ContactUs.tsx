@@ -131,6 +131,42 @@ export function ContactUs() {
             className="text-center mb-4"
           >
           </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 0.55 }}
+              whileHover={{ y: -6 }}
+            >
+              <Card className="p-4 border-[#00f0ff]/35 bg-[linear-gradient(160deg,rgba(0,240,255,0.08),rgba(0,0,0,0.45))]">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#00f0ff] mb-2">Coordinator</p>
+                      <h3 className="text-lg md:text-xl lg:text-2xl font-orbitron text-white whitespace-nowrap">Yasharth Singh</h3>
+                    </div>
+                  </div>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-120px" }}
+              transition={{ duration: 0.55, delay: 0.1 }}
+              whileHover={{ y: -6 }}
+            >
+              <Card className="p-4 border-[#ff4d00]/35 bg-[linear-gradient(160deg,rgba(255,77,0,0.08),rgba(0,0,0,0.45))]">
+                  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                    <div>
+                      <p className="text-[10px] font-mono tracking-[0.2em] uppercase text-[#ffb08a] mb-2">Coordinator</p>
+                      <h3 className="text-lg md:text-xl lg:text-2xl font-orbitron text-white whitespace-nowrap">Vaibhav Katariya</h3>
+                    </div>
+                  </div>
+              </Card>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
