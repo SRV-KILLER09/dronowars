@@ -107,7 +107,7 @@ export function Hero() {
               transition={{ delay: 1.2, duration: 0.6 }}
               className="relative"
             >
-              <p className="text-[9px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/55 mb-1">Prize Pool</p>
+              <p className="text-[9px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/55 mb-1">Cash Prize</p>
               <motion.p
                 animate={
                   allowLoopAnimations

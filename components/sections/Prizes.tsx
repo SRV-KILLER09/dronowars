@@ -10,7 +10,7 @@ export function Prizes() {
     <section id="prizes" className="py-14 md:py-16 relative overflow-hidden bg-[#03030a]">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_18%_22%,rgba(0,240,255,0.14),transparent_42%),radial-gradient(circle_at_82%_18%,rgba(255,77,0,0.14),transparent_40%)]" />
       <div className="container mx-auto px-4 z-10 text-center relative">
-        <SectionHeading glowColor="primary">PRIZE POOL</SectionHeading>
+        <SectionHeading glowColor="primary">CASH PRIZE</SectionHeading>
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -55,7 +55,7 @@ export function Prizes() {
             <div className="flex flex-col gap-4 text-left md:text-center items-center">
               <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent mb-4" />
               <p className="text-white/70 font-mono text-xs md:text-sm leading-relaxed max-w-2xl uppercase tracking-widest">
-                The National Drone Championship features 5 high-stakes arenas where pilots compete for glory and substantial rewards. Focus on technical excellence and precision maneuvering to claim your share of the massive prize pool.
+                The National Drone Championship features 5 high-stakes arenas where pilots compete for glory and substantial rewards. Focus on technical excellence and precision maneuvering to claim your share of the massive cash prize.
               </p>
               <div className="h-px w-24 bg-gradient-to-r from-transparent via-primary to-transparent mt-4" />
             </div>
