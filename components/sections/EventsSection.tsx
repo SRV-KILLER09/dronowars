@@ -304,30 +304,33 @@ export function EventsSection() {
                   </div>
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_10%,rgba(255,77,0,0.10),transparent_38%),radial-gradient(circle_at_10%_90%,rgba(0,240,255,0.07),transparent_40%)]" />
                   <div className="flex flex-col items-center justify-center w-full h-full">
-                    <FileText size={38} className="text-[#ff4d00] mb-2" />
-                    <div className="font-mono text-xs md:text-sm text-white/80 mb-2 text-center">
-                      {selectedEvent.rulebookPdf ? 'Rulebook PDF available' : 'Rulebook coming soon!'}
-                    </div>
-                    {selectedEvent.rulebookPdf && (
-                      <div className="w-full h-16 overflow-hidden rounded bg-black/30 border border-white/10 flex items-center justify-center mb-2">
+                    {selectedEvent.rulebookPdf ? (
+                      <div className="w-full h-48 sm:h-56 md:h-64 lg:h-72 overflow-y-auto rounded bg-black/30 border border-white/10 flex items-center justify-center mb-4 transition-all duration-300 shadow-[0_0_16px_2px_rgba(255,77,0,0.10)]">
                         <iframe
                           src={selectedEvent.rulebookPdf + '#toolbar=0&navpanes=0&scrollbar=0'}
                           title="Rulebook Preview"
-                          className="w-full h-full"
-                          style={{ minHeight: '64px', maxHeight: '64px', pointerEvents: 'none' }}
+                          className="w-full h-full border-none rounded-xl bg-black/60 shadow-lg pointer-events-none"
+                          style={{ minHeight: '192px', maxHeight: '320px' }}
                           tabIndex={-1}
                         />
                       </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full text-center text-white/70 font-mono text-sm p-6">
+                        <FileText size={32} className="mx-auto mb-3 text-[#ff4d00]" />
+                        Rulebook coming soon!
+                      </div>
                     )}
                     {selectedEvent.rulebookPdf && (
-                      <button
-                        className="mt-1 px-4 py-1.5 rounded bg-[#ff4d00] text-white font-mono text-xs uppercase tracking-widest shadow hover:bg-[#ff7a3d] transition-colors"
-                        onClick={() => {
-                          window.location.href = `/rulebook-viewer?pdf=${encodeURIComponent(selectedEvent.rulebookPdf)}&title=${encodeURIComponent(selectedEvent.title)}`;
-                        }}
-                      >
-                        Expand PDF
-                      </button>
+                      <div className="w-full flex justify-center">
+                        <button
+                          className="mt-1 px-4 py-1.5 rounded bg-[#ff4d00] text-white font-mono text-xs uppercase tracking-widest shadow hover:bg-[#ff7a3d] transition-colors"
+                          onClick={() => {
+                            window.location.href = `/rulebook-viewer?pdf=${encodeURIComponent(selectedEvent.rulebookPdf)}&title=${encodeURIComponent(selectedEvent.title)}`;
+                          }}
+                        >
+                          Expand PDF
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
