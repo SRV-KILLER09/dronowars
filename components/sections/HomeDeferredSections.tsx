@@ -12,12 +12,15 @@ const Prizes = dynamic(() => import("@/components/sections/Prizes").then((m) => 
 const ContactUs = dynamic(() => import("@/components/sections/ContactUs").then((m) => m.ContactUs));
 const Footer = dynamic(() => import("@/components/sections/Footer").then((m) => m.Footer));
 
+
+
 export function HomeDeferredSections() {
   return (
     <>
       <AboutEvent />
       <EventsSection />
       <Prizes />
+      {/* <MeetTheDevelopers /> removed as per user request */}
       <ContactUs />
       <Footer />
     </>
