@@ -101,7 +101,7 @@ export function AboutEvent() {
               >
                 WHATSAPP GROUP
               </Button>
-              <Button size="sm" variant="primary" className="w-full sm:w-auto sm:min-w-[220px]">INSTRUCTIONS FOR RACE</Button>
+              <Button size="sm" variant="primary" className="w-full sm:w-auto sm:min-w-[220px]">CHECK THE EVENTS</Button>
             </div>
           </Card>
         </div>
