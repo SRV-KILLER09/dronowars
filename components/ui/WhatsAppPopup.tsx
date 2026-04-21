@@ -5,25 +5,27 @@ import { AnimatePresence, motion } from "framer-motion";
 export function WhatsAppPopupContent({
   open,
   onClose,
+  shouldAnimate = true,
 }: {
   open: boolean;
   onClose: () => void;
+  shouldAnimate?: boolean;
 }) {
   return (
     <AnimatePresence>
       {open && (
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={shouldAnimate ? { opacity: 0 } : false}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={shouldAnimate ? { opacity: 0 } : undefined}
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md px-4"
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 30 }}
+            initial={shouldAnimate ? { scale: 0.9, opacity: 0, y: 30 } : false}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 130, damping: 16 }}
+            exit={shouldAnimate ? { scale: 0.95, opacity: 0 } : undefined}
+            transition={shouldAnimate ? { type: "spring", stiffness: 130, damping: 16 } : { duration: 0 }}
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-md p-[1px] rounded-xl bg-gradient-to-br from-[#00f0ff]/50 via-[#22c55e]/30 to-[#00f0ff]/50 shadow-[0_0_30px_rgba(0,240,255,0.2)]"
           >
@@ -98,7 +100,7 @@ export function WhatsAppPopupContent({
                   {[0, 1, 2].map((i) => (
                     <div
                       key={i}
-                      className="w-3 h-3 rounded-full bg-green-400 shadow-[0_0_12px_#22c55e] animate-pulse"
+                      className={`w-3 h-3 rounded-full bg-green-400 shadow-[0_0_12px_#22c55e] ${shouldAnimate ? "animate-pulse" : ""}`}
                       style={{ animationDelay: `${i * 0.2}s` }}
                     />
                   ))}
