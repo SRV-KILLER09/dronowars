@@ -9,24 +9,24 @@ export function Hero() {
   const allowLoopAnimations = !prefersReducedMotion;
 
   return (
-    <section className="relative h-screen md:h-[100dvh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[70vh] md:min-h-[65vh] flex items-center justify-center overflow-hidden pt-20 md:pt-24 pb-10 md:pb-14">
       <div className="container mx-auto px-4 w-full relative z-[60]">
         <div className="flex flex-col items-center text-center relative">
 
 
-          <div className="relative mb-4 md:mb-6 text-center w-full px-2">
+          <div className="relative mb-3 md:mb-4 text-center w-full px-2">
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-orbitron font-black text-white tracking-widest leading-tight"
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-orbitron font-black text-white tracking-widest leading-tight"
             >
               <span className="relative inline-block whitespace-nowrap">
                 DRON-O-WAR 1.0
                 <motion.div
                   initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ delay: 1, duration: 0.8, ease: "circOut" }}
+                  animate={{ width: '100%' }}
+                  transition={{ delay: 1, duration: 0.8, ease: 'circOut' }}
                   className="absolute -bottom-1 md:-bottom-2 left-0 h-0.5 md:h-1 bg-gradient-to-r from-primary to-accent"
                 />
               </span>
@@ -45,7 +45,7 @@ export function Hero() {
               <p className="text-[9px] md:text-xs font-mono uppercase tracking-[0.2em] md:tracking-[0.3em] text-primary mb-1 md:mb-2">
                 Official Event
               </p>
-              <p className="text-lg md:text-2xl font-orbitron font-bold text-white mb-1 tracking-wider">
+              <p className="text-base md:text-xl font-orbitron font-bold text-white mb-1 tracking-wider">
                 National Drone Championship
               </p>
               <p className="text-white/70 font-mono text-[9px] md:text-xs uppercase tracking-[0.15em]">
@@ -63,7 +63,7 @@ export function Hero() {
               className="border border-primary/50 bg-gradient-to-r from-primary/10 to-accent/10 px-6 md:px-8 py-2 md:py-3 text-center backdrop-blur-sm"
             >
               <p className="text-[9px] md:text-[10px] font-mono tracking-[0.25em] uppercase text-white/60 mb-0.5">Event Date</p>
-              <p className="text-xl md:text-2xl font-orbitron font-black text-primary tracking-wide">
+              <p className="text-base md:text-xl font-orbitron font-black text-primary tracking-wide">
                 May 2-3, 2026
               </p>
             </motion.div>
@@ -82,7 +82,7 @@ export function Hero() {
                     : undefined
                 }
                 transition={allowLoopAnimations ? { duration: 2.4, repeat: Infinity, ease: "easeInOut" } : undefined}
-                className="text-3xl sm:text-4xl md:text-6xl font-orbitron font-black tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#ffffff_42%,#ff9f66_100%)]"
+                className="text-2xl sm:text-3xl md:text-4xl font-orbitron font-black tracking-[0.08em] text-transparent bg-clip-text bg-[linear-gradient(90deg,#00f0ff_0%,#ffffff_42%,#ff9f66_100%)]"
               >
                 ₹ 8,00,000 INR
               </motion.p>
@@ -119,7 +119,7 @@ export function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 md:h-3 md:w-3 bg-red-500 shadow-[0_0_10px_rgba(244,63,94,0.8)]"></span>
                 </span>
-                <span className="text-[10px] md:text-sm font-orbitron font-bold tracking-[0.15em] md:tracking-[0.2em] uppercase text-red-100">
+                <span className="text-[9px] md:text-xs font-orbitron font-bold tracking-[0.13em] md:tracking-[0.18em] uppercase text-red-100">
                   Registration Deadline <span className="text-white font-black text-red-400 drop-shadow-[0_0_12px_rgba(244,63,94,1)]">25th April</span>
                 </span>
               </div>
@@ -132,7 +132,7 @@ export function Hero() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 md:h-3 md:w-3 bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span>
                 </span>
-                <span className="text-[10px] md:text-sm font-orbitron font-bold tracking-[0.15em] md:tracking-[0.2em] uppercase text-orange-100">
+                <span className="text-[9px] md:text-xs font-orbitron font-bold tracking-[0.13em] md:tracking-[0.18em] uppercase text-orange-100">
                   Abstract Deadline: <span className="text-white font-black text-orange-400 drop-shadow-[0_0_12px_rgba(249,115,22,1)]">28th April</span>
                 </span>
               </div>
