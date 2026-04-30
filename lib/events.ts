@@ -40,7 +40,7 @@ export const events: Event[] = [
     longDescription:
       "This event challenges participants to design and operate high-performance FPV drones capable of navigating a predefined racing track consisting of gates, obstacles, and sharp turns in the minimum possible time.\n\nThe objective is to demonstrate precision control, agility, and speed while maintaining stability and consistency throughout multiple laps. Teams are expected to optimize their drone configuration and piloting skills to efficiently complete the course under competitive conditions.",
     image: "/event-fpv-racing.jpg",
-    rulebookPdf: "/FPV rulebook DronoWar.pdf",
+    rulebookPdf: "/FPV-rulebook-DronoWar.pdf",
     color: "primary",
     category: "COMPETITION",
     skillsTested: [

@@ -120,7 +120,7 @@ export function Hero() {
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 md:h-3 md:w-3 bg-red-500 shadow-[0_0_10px_rgba(244,63,94,0.8)]"></span>
                 </span>
                 <span className="text-[9px] md:text-xs font-orbitron font-bold tracking-[0.13em] md:tracking-[0.18em] uppercase text-red-100">
-                  Registration Deadline <span className="text-white font-black text-red-400 drop-shadow-[0_0_12px_rgba(244,63,94,1)]">28th April</span>
+                  Registration Deadline <span className="text-white font-black text-red-400 drop-shadow-[0_0_12px_rgba(244,63,94,1)]">1st May</span>
                 </span>
               </div>
 
@@ -133,7 +133,7 @@ export function Hero() {
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 md:h-3 md:w-3 bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></span>
                 </span>
                 <span className="text-[9px] md:text-xs font-orbitron font-bold tracking-[0.13em] md:tracking-[0.18em] uppercase text-orange-100">
-                  Abstract Deadline: <span className="text-white font-black text-orange-400 drop-shadow-[0_0_12px_rgba(249,115,22,1)]">30th April</span>
+                  Abstract Deadline: <span className="text-white font-black text-orange-400 drop-shadow-[0_0_12px_rgba(249,115,22,1)]">1st May</span>
                 </span>
               </div>
             </motion.div>

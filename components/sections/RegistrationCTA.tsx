@@ -41,7 +41,7 @@ export function RegistrationCTA() {
           
           <div className="flex flex-col items-center">
             <span className="text-[10px] md:text-sm font-mono tracking-[0.2em] uppercase text-[#00f0ff]/70 mb-1">REGISTRATION DEADLINE</span>
-            <span className="text-xl md:text-2xl font-orbitron font-black text-white drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">25TH APRIL</span>
+            <span className="text-xl md:text-2xl font-orbitron font-black text-white drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">1st MAY</span>
           </div>
           
           <div className="hidden sm:block w-px h-12 bg-white/20"></div>
@@ -49,7 +49,7 @@ export function RegistrationCTA() {
           
           <div className="flex flex-col items-center">
             <span className="text-[10px] md:text-sm font-mono tracking-[0.2em] uppercase text-[#00f0ff]/70 mb-1">ABSTRACT DEADLINE</span>
-            <span className="text-xl md:text-2xl font-orbitron font-black text-[#00f0ff] drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">28TH APRIL</span>
+            <span className="text-xl md:text-2xl font-orbitron font-black text-[#00f0ff] drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">1st MAY</span>
           </div>
         </motion.div>
 
